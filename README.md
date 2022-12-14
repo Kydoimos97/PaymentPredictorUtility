@@ -1,7 +1,7 @@
 <div align="center">
 
 
-# PaymentPredictorUtility
+# Payment Predictor Util 1.0
 
 ![project logo](ExternalFiles/Logo.png)
 
@@ -10,7 +10,7 @@ An all in one solution for employing XGboost machine learning to predict custome
 </div>
 
 # VERSION INFO
-1. Python Dev version: 3.10
+1. Python=3.10
 2. pandas=1.5.2
 3. scikit-learn=1.1.3
 4. numpy=1.23.4
