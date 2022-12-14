@@ -49,7 +49,9 @@ The setup will guide you through file placement.
 ![debug mode](ExternalFiles/DebugMode.png)
 
 <h4>Exit Option</h4>
+
 ![exit](ExternalFiles/ExitMethod.png)
+
 </div>
 
 # License
