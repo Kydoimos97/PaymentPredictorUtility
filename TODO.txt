@@ -1,0 +1,4 @@
+TODO change settings to github folder
+TODO check differences between github folder and paymentprob folder
+TODO ask for feedback
+TODO run full model and save
