@@ -29,6 +29,25 @@ A proprietary file called _tblXmain_transactions.csv_ is needed to run the progr
 
 The setup will guide you through file placement.
 
+# ScreenShots
+<div align="center">
+
+<h4>Main Screen</h4>
+![mainscreen](ExternalFiles/MainScreen.png)
+
+<h4>Individual Prediction</h4>
+![individual prediction](ExternalFiles/IndividualMethod.png)
+
+<h4>Model Training</h4>
+![training mode](ExternalFiles/TrainMethod.png)
+
+<h4>Debug Mode</h4>
+![debug mode](ExternalFiles/DebugMode.png)
+
+<h4>Exit Option</h4>
+![exit](ExternalFiles/ExitMethod.png)
+</div>
+
 # License
 Copyright (C) Willem van der Schans - All Rights Reserved.
 
