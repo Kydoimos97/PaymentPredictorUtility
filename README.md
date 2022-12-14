@@ -1,7 +1,7 @@
 <div align="center">
 
 
-# PaymentPredictorUtility
+# Payment Predictor Util 1.0
 
 ![project logo](ExternalFiles/Logo.png)
 
