@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/PaymentProb/Run.py"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/main.py"
   },
   {
    "optionDest": "onefile",
@@ -19,11 +19,11 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/logoonly.ico"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/ExternalFiles/logoonly.ico"
   },
   {
    "optionDest": "name",
-   "value": "PaymentPredictorUtility"
+   "value": "Avid Payment Predictor"
   },
   {
    "optionDest": "ascii",
@@ -35,7 +35,7 @@
   },
   {
    "optionDest": "splash",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/Logo.png"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/ExternalFiles/Logo.png"
   },
   {
    "optionDest": "strip",
@@ -82,16 +82,16 @@
    "value": "C:/Users/wille/.conda/envs/Core/Library/mingw-w64;./Library/mingw-w64"
   },
   {
-   "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Main.sql;."
-  },
-  {
    "optionDest": "collect_all",
    "value": "xgboost"
   },
   {
    "optionDest": "collect_all",
    "value": "pyarrow"
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/ExternalFiles/Main.sql;."
   }
  ],
  "nonPyinstallerOptions": {
