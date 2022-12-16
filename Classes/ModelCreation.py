@@ -320,7 +320,7 @@ class machineLearner:
 
         result = f"\nIn-sample: Accuracy = " + Fore.BLUE + f"{round(insampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.BLUE + f"{round(insampleAUC,2)}" + Style.RESET_ALL + " | Out-of-Sample: Accuracy = " + Fore.BLUE + f"{round(outsampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.BLUE + f"{round(outsampleAUC,2)}" + Style.RESET_ALL + f"\n with parameters: {epochParamGrid}"
         result_bare = f"In-sample: Accuracy = {round(insampleAcc,2)}, AUC = {round(insampleAUC,2)} | Out-of-Sample: Accuracy = {round(outsampleAcc,2)}, AUC = {round(outsampleAUC,2)} \nwith parameters: {epochParamGrid}"
-        file_path = Path(os.getcwd()).joinpath('Output').joinpath(":ogs").joinpath(f"ModelLog{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.log")
+        file_path = Path(os.getcwd()).joinpath('Output').joinpath("Logs").joinpath(f"ModelLog{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.log")
 
         if not os.path.exists(Path(os.getcwd()).joinpath('Output').joinpath("Logs")):
             os.mkdir(Path(os.getcwd()).joinpath('Output').joinpath("Logs"))
