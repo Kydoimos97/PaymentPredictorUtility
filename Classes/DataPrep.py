@@ -1,7 +1,7 @@
 import pandas as pd
 import time
 from sklearn.preprocessing import LabelEncoder
-from PaymentProb.Functions.Func import dateConvert
+from Functions.Func import dateConvert
 
 
 class DataCleaner:

@@ -15,13 +15,13 @@ from time import sleep
 import pandas as pd
 from colorama import Fore, init, Style
 
-from PaymentProb.Classes.CustomerClass import Customer
-from PaymentProb.Classes.DataPrep import DataCleaner, dataMLPrep
-from PaymentProb.Classes.ModelCreation import dataScaler, machineLearner
-from PaymentProb.Classes.dataFrameLoader import dataFrameLoader
-from PaymentProb.Classes.modelLoader import modelLoader
-from PaymentProb.Functions.ErrorCodes import ErrorProcessor
-from PaymentProb.Functions.Func import directoryScanner
+from Classes.CustomerClass import Customer
+from Classes.DataPrep import DataCleaner, dataMLPrep
+from Classes.ModelCreation import dataScaler, machineLearner
+from Classes.dataFrameLoader import dataFrameLoader
+from Classes.modelLoader import modelLoader
+from Functions.ErrorCodes import ErrorProcessor
+from Functions.Func import directoryScanner
 
 init(autoreset=True, convert=True)
 #init(autoreset=True)

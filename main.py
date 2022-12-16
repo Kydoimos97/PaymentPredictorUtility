@@ -3,8 +3,8 @@ import traceback
 
 from colorama import Fore, init
 
-from PaymentProb.Classes.GraphicalUserInterFace import GraphicalUserInterface
-from PaymentProb.Functions.ErrorCodes import ErrorProcessor
+from Classes.GraphicalUserInterFace import GraphicalUserInterface
+from Functions.ErrorCodes import ErrorProcessor
 
 init(autoreset=True, convert=True)
 #init(autoreset=True)
