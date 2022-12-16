@@ -118,15 +118,18 @@ class machineLearner:
         if type(ParamGrid) is dict:
             self.__paramGrid = pd.DataFrame(ParameterGrid(ParamGrid))
         elif ParamGrid.lower() == "optimal":
-            ParamGrid = {"n_estimators": [2500],
+            paramGridInp = {"n_estimators": [2500],
                          "max_depth": [15],
                          "alpha": [1],
                          "learning_rate": [0.1],
                          "colsample_bytree": [0.8],
                          "lambda": [1],
                          "subsample": [1]}
+
+            self.__paramGrid = pd.DataFrame(ParameterGrid(paramGridInp))
+
         elif ParamGrid.lower() == "fast":
-            ParamGrid = {"n_estimators": [100],
+            paramGridInp = {"n_estimators": [100],
                          "max_depth": [2],
                          "alpha": [1],
                          "learning_rate": [0.1],
@@ -134,7 +137,7 @@ class machineLearner:
                          "lambda": [1],
                          "subsample": [1]}
 
-            self.__paramGrid = pd.DataFrame(ParameterGrid(ParamGrid))
+            self.__paramGrid = pd.DataFrame(ParameterGrid(paramGridInp))
         else:
             # TODO Error
             raise ValueError

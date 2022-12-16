@@ -447,10 +447,13 @@ class GraphicalUserInterface:
                 self.sourceObj = dataFrameLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
+                try:
+                    self.loadingAnimator.stop(method="error")
+                except:
+                    pass
                 if self.DebugFlag:
                     print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
                 if not reloadFlag:
-                    self.loadingAnimator.stop(method="error")
                     if input(
                             Fore.RED + "[dfClean] not found!!! " + Style.RESET_ALL + "Do you want to create this file? Y/N:").lower() == "y":
                         print(
@@ -501,10 +504,13 @@ class GraphicalUserInterface:
                 self.targetObj = dataFrameLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
+                try:
+                    self.loadingAnimator.stop(method="error")
+                except:
+                    pass
                 if self.DebugFlag:
                     print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
                 if not reloadFlag:
-                    self.loadingAnimator.stop(method="error")
                     if input(
                             Fore.RED + "[dfDummy] or [dfTarget] not found!!! " + Style.RESET_ALL + f"Do you want to create this file? Y/N:").lower() == "y":
                         print(
@@ -554,10 +560,14 @@ class GraphicalUserInterface:
                 self.scalerObj = modelLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
+                try:
+                    self.loadingAnimator.stop(method="error")
+                except:
+                    pass
                 if self.DebugFlag:
                     print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
                 if not reloadFlag and not retrainFlag:
-                    self.loadingAnimator.stop(method="error")
+                    self.loadingAnimator.stop()
                     if input(
                             Fore.RED + "[scaler.sav] not found or corrupted!!! " + Style.RESET_ALL + f"Do you want to create this file? Y/N:").lower() == "y":
                         print(
@@ -599,12 +609,15 @@ class GraphicalUserInterface:
                 self.modelObj = modelLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
+                try:
+                    self.loadingAnimator.stop(method="error")
+                except:
+                    pass
                 if self.DebugFlag:
                     print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
                 if not reloadFlag and not retrainFlag:
-                    self.loadingAnimator.stop(method="error")
                     methodChoice = input(
-                        Fore.RED + "[model.sav] not found or corrupted!!! " + Style.RESET_ALL + "Do you want to create this file using " + Fore.BLUE + "[O]" + Style.RESET_ALL + "ptimal, (Est. 4 Hours)" + Fore.BLUE + "[F]" + Style.RESET_ALL + "ast (Est. 5 min), or " + Fore.BLUE + "[C]" + Style.RESET_ALL + "ustom parameters? or " + Fore.BLUE + "[C]" + Style.RESET_ALL + "ancel this action?:")
+                        Fore.RED + "[model.sav] not found or corrupted!!! " + Style.RESET_ALL + "\nDo you want to create this file using " + Fore.BLUE + "[O]" + Style.RESET_ALL + "ptimal, (Est. 4 Hours)" + Fore.BLUE + "[F]" + Style.RESET_ALL + "ast (Est. 5 min), or " + Fore.BLUE + "[C]" + Style.RESET_ALL + "ustom parameters? or " + Fore.BLUE + "[E]" + Style.RESET_ALL + "xit this action?:")
                     if methodChoice.lower() == "o":
                         print(
                             Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
