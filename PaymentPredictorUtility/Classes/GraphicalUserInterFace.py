@@ -5,6 +5,8 @@ import random
 import time
 import warnings
 
+import pyodbc
+
 warnings.filterwarnings("ignore")
 from itertools import cycle
 from pathlib import Path
@@ -196,20 +198,24 @@ class GraphicalUserInterface:
 
         # Save Output
         if not os.path.exists(
-                Path(self.docPath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
+                Path(self.docPath).joinpath('Output').joinpath(
+                    f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
             os.mkdir(
-                Path(self.docPath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}"))
+                Path(self.docPath).joinpath('Output').joinpath(
+                    f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}"))
 
         df = pd.DataFrame.from_dict(customerDict, orient="index",
                                     columns=["Accuracy", "Certainty", "Prediction", "Payment Probability",
                                              "Payment Codes"])
         df.to_csv(
-            self.docPath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+            self.docPath.joinpath('Output').joinpath(
+                f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
                 f"CustomerTestDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         dfError = pd.DataFrame.from_dict(ErrorDict, orient="index", columns=["Error"])
         dfError.to_csv(
-            self.docPath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+            self.docPath.joinpath('Output').joinpath(
+                f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
                 f"CustomerErrorDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         self.loadingAnimator.stop()
@@ -239,11 +245,13 @@ class GraphicalUserInterface:
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
                                         f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                         self.docPath, "Data")
-            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
                            f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid="optimal",
@@ -258,11 +266,13 @@ class GraphicalUserInterface:
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
                                         f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                         self.docPath, "Data")
-            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
                            f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid="fast",
@@ -290,11 +300,13 @@ class GraphicalUserInterface:
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
                                         f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                         self.docPath, "Data")
-            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                        loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
                            f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid=ParamGrid,
@@ -329,7 +341,7 @@ class GraphicalUserInterface:
         elif selection == "t":
             self.passFlag = True
             print(
-                Fore.CYAN + "Model Training Method Selected" + Fore.YELLOW + "\nWARNING: This method can take a lot of time when using Optimal Parameters (Est. 4.5 hours)." + Style.RESET_ALL,
+                Fore.CYAN + "Model Training Method Selected" + Style.RESET_ALL,
                 flush=True)
 
             selVal = input("Are you sure you want to continue? Y/N:")
@@ -401,14 +413,14 @@ class GraphicalUserInterface:
                     print(
                         Fore.YELLOW + " Note: The next question does not impact results by a large margin. \n    Only do this if you can spare the time or if the source table variables (additions or deletions) changed." + Style.RESET_ALL)
                     if input(
-                            "Do you want to retrain the scaler and ensemble tree model? " + Fore.CYAN + "(Est. Time 4 Hours)" + Style.RESET_ALL + " Y/N:").lower() == "y":
+                            "Do you want to retrain the scaler and ensemble tree model? Y/N:").lower() == "y":
                         retrainFlag = True
                 else:
                     pass
             else:
                 reloadFlag = False
                 pass
-            
+
             # Data Folder
             if not os.path.exists(self.docPath):
                 os.mkdir(self.docPath)
@@ -433,6 +445,67 @@ class GraphicalUserInterface:
                     return
             else:
                 print(Fore.GREEN + "Data Folder Found." + Style.RESET_ALL)
+
+            self.dividerSmall(title="tblXmain_transactions")
+
+            # tblXmain_transactions{
+            try:
+                fileName = directoryScanner("tblXmain_transactions", self.docPath, Folder="Data",
+                                            returnMethod="Last", loadingAnimator=self.loadingAnimator,
+                                            skipFlag=self.skipFlag)
+                if fileName is None or fileName == "":
+                    raise FileNotFoundError
+                print(Fore.GREEN + "tblXmain_transactions Found." + Style.RESET_ALL)
+
+            except Exception as e:
+                if self.DebugFlag:
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+
+                print(Fore.YELLOW + "Note getting tblXmain_transaction will only work on the Avid network!!!")
+                if input(
+                        Fore.RED + "[tblXmain_transactions] not found. \n" + Style.RESET_ALL + "Do you want to download tblXmain_transactions? Y/N:").lower() == "y":
+                    try:
+                        userName = input("Please enter SqlServer username:")
+                        passWord = input("Please enter your SqlServer password:")
+                        self.loadingAnimator = loadingAnimator("Getting tblXmain_transactions...",
+                                                               "Getting tblXmain_transactions Complete",
+                                                               "Getting tblXmain_transactions Failed").start()
+                        server = '10.6.0.48'
+                        database = 'warehouse'
+                        username = userName
+                        password = passWord
+
+                        cnxn = pyodbc.connect(
+                            'DRIVER={SQL Server};SERVER=' + server + ';DATABASE=' + database + ';ENCRYPT=no;UID=' + username + ';PWD=' + password,
+                            autocommit=True)
+
+                        sql_query = pd.read_sql_query("SELECT * FROM tblXmain_transactions", cnxn)
+                        df = pd.DataFrame(sql_query)
+                        df.to_csv(Path(os.path.expanduser('~/Documents')).joinpath("AvidPaymentPredictor").joinpath(
+                            "Data").joinpath(
+                            f"tblXmain_transactions{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
+                        cnxn.close()
+                        self.loadingAnimator.stop()
+                    except Exception as e:
+                        try:
+                            self.loadingAnimator.stop(method="error")
+                        except:
+                            pass
+                        if self.DebugFlag:
+                            print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                        print(
+                            Fore.RED + f"\n Getting table failed " + Fore.CYAN + "[tblXmain_transaction.csv]" + Fore.RED + " Exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}")
+                        print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
+                        time.sleep(3)
+                        self.exitFlag = True
+                        return
+                else:
+                    print(
+                        Fore.RED + f"\nAction cancelled please make " + Fore.CYAN + "[tblXmain_transaction.csv]" + Fore.RED + " exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
+                    print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
+                    time.sleep(3)
+                    self.exitFlag = True
+                    return
 
             self.dividerSmall(title="Output Folder")
 
@@ -464,7 +537,8 @@ class GraphicalUserInterface:
                                                        "Loading dfClean Failed",
                                                        0.05).start()
 
-                fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
+                                            loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                 self.sourceObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
@@ -504,7 +578,8 @@ class GraphicalUserInterface:
                     self.loadingAnimator = loadingAnimator("Cleaning Data Set...", "Cleaning Complete",
                                                            "Cleaning Failed").start()
                     fileName = directoryScanner("tblXmain_transactions", self.docPath, Folder="Data",
-                                                returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                                                returnMethod="Last", loadingAnimator=self.loadingAnimator,
+                                                skipFlag=self.skipFlag)
                     DataCleaner(fileName, f"dfClean{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
                                 path=self.docPath, verbose=self.verboseFlagBool)
                     self.loadingAnimator.stop()
@@ -519,9 +594,11 @@ class GraphicalUserInterface:
                 self.loadingAnimator = loadingAnimator("Loading dfDummy and dfTarget...",
                                                        "Loading dfDummy and dfTarget Complete",
                                                        "Loading dfDummy and dfTarget Failed").start()
-                fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                            loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                 self.dummyObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
-                fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                            loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                 self.targetObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
@@ -543,7 +620,8 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Machine Learning Preparation...",
                                                                "Machine Learning Preparation Complete",
                                                                "Machine Learning Preparation Failed").start()
-                        fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
                                    f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
                                    verbose=self.verboseFlagBool)
@@ -563,7 +641,8 @@ class GraphicalUserInterface:
                     self.loadingAnimator = loadingAnimator("Machine Learning Preparation...",
                                                            "Machine Learning Preparation Complete",
                                                            "Machine Learning Preparation Failed").start()
-                    fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                    fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
+                                                loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                     dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
                                f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
                                verbose=self.verboseFlagBool)
@@ -578,7 +657,8 @@ class GraphicalUserInterface:
 
                 self.loadingAnimator = loadingAnimator("Loading Scaling Model...", "Loading Scaling Model Complete",
                                                        "Loading Scaling Model Failed").start()
-                fileName = directoryScanner("scaler", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                fileName = directoryScanner("scaler", self.docPath, Folder="Data", returnMethod="Last",
+                                            loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                 self.scalerObj = modelLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
@@ -601,7 +681,8 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating Scaling Model...",
                                                                "Creating Scaling Model Complete",
                                                                "Creating Scaling Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
@@ -627,7 +708,8 @@ class GraphicalUserInterface:
 
                 self.loadingAnimator = loadingAnimator("Loading ML Model...", "Loading ML Model Complete",
                                                        "Loading ML Model Failed").start()
-                fileName = directoryScanner("model", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                fileName = directoryScanner("model", self.docPath, Folder="Data", returnMethod="Last",
+                                            loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                 self.modelObj = modelLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
@@ -650,11 +732,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="optimal",
@@ -668,11 +752,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="fast",
@@ -698,11 +784,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid=ParamGrid,
@@ -730,11 +818,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="optimal",
@@ -748,11 +838,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="fast",
@@ -778,11 +870,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
                                                     f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
                                                     self.docPath, "Data")
-                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last",
+                                                    loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
                                        f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid=ParamGrid,
