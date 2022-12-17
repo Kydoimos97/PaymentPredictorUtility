@@ -24,7 +24,9 @@ from PaymentPredictorUtility.Functions.ErrorCodes import ErrorProcessor
 from PaymentPredictorUtility.Functions.Func import directoryScanner
 
 init(autoreset=True, convert=True)
-#init(autoreset=True)
+
+
+# init(autoreset=True)
 
 # Design Methodology: Correct = Green, Error = Red, Input = White, Information/Processing = Blue, Warning/Action = Yellow,
 # TODO Error Messages, Include SQL?, Set-up Automatic Test and file naming
@@ -43,6 +45,7 @@ class GraphicalUserInterface:
         self.initFlag = True
         self.startTime = time.time()
         self.SourcePath = Path(os.getcwd())
+        self.docPath = Path(os.path.expanduser('~/Documents')).joinpath("AvidPaymentPredictor")
 
         self.dataExists = True
         self.scalerObj = None
@@ -57,10 +60,6 @@ class GraphicalUserInterface:
     def showGui(self):
         # Load all files and data
         print(self.asciiArt(), flush=True)
-        # self.loadingAnimator = loadingAnimator("", "",
-        #                                        "Data Loading Failed").start()
-        #
-        # self.loadingAnimator.stop()
         self.dataModelLoader()
 
         # Clear Console
@@ -84,7 +83,8 @@ class GraphicalUserInterface:
         acctrefno = 0
 
         while not passFlag:
-            print("Selection of random account Numbers:" + Fore.BLUE + f" {random.sample(uniqueList, 5)}" + Style.RESET_ALL)
+            print(
+                "Selection of random account Numbers:" + Fore.CYAN + f" {random.sample(uniqueList, 5)}" + Style.RESET_ALL)
             acctrefno = int(input("Please input an account Number: "))
             if acctrefno in uniqueList:
                 passFlag = True
@@ -130,20 +130,28 @@ class GraphicalUserInterface:
                     BatchTime = time.time()
 
         # Save Output
-        if not os.path.exists(Path(self.SourcePath).joinpath('Output').joinpath(f"Individual{datetime.datetime.today().strftime('%Y%m%d')}")):
-            os.mkdir(Path(self.SourcePath).joinpath('Output').joinpath(f"Individual{datetime.datetime.today().strftime('%Y%m%d')}"))
+        if not os.path.exists(Path(self.docPath).joinpath('Output').joinpath(
+                f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
+            os.mkdir(Path(self.docPath).joinpath('Output').joinpath(
+                f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}"))
 
         df = pd.DataFrame.from_dict(customerDict, orient="index",
                                     columns=["Accuracy", "Certainty", "Prediction", "Payment Probability",
                                              "Payment Codes"])
-        df.to_csv(self.SourcePath.joinpath('Output').joinpath(f"Individual{datetime.datetime.today().strftime('%Y%m%d')}").joinpath(f"{acctrefno}TestDataFrame{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.csv"))
+        df.to_csv(self.docPath.joinpath('Output').joinpath(
+            f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+            f"{acctrefno}TestDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         dfError = pd.DataFrame.from_dict(ErrorDict, orient="index", columns=["Error"])
-        dfError.to_csv(self.SourcePath.joinpath('Output').joinpath(f"Individual{datetime.datetime.today().strftime('%Y%m%d')}").joinpath(f"{acctrefno}ErrorDataFrame{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.csv"))
+        dfError.to_csv(self.docPath.joinpath('Output').joinpath(
+            f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+            f"{acctrefno}ErrorDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         self.loadingAnimator.stop()
 
-        print(Fore.GREEN + f"Output saved in Output/Individual{datetime.datetime.today().strftime('%Y%m%d')} folder." + Style.RESET_ALL, flush=True)
+        print(
+            Fore.GREEN + f"Output saved in {str(self.docPath.joinpath('Output'))}/Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')} folder." + Style.RESET_ALL,
+            flush=True)
         if input("Do you want to exit the program? Y/N: ").lower() == "y":
             self.exitFlag = True
         else:
@@ -187,20 +195,27 @@ class GraphicalUserInterface:
                     BatchTime = time.time()
 
         # Save Output
-        if not os.path.exists(Path(self.SourcePath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%Y%m%d')}")):
-            os.mkdir(Path(self.SourcePath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%Y%m%d')}"))
+        if not os.path.exists(
+                Path(self.docPath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
+            os.mkdir(
+                Path(self.docPath).joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}"))
 
         df = pd.DataFrame.from_dict(customerDict, orient="index",
                                     columns=["Accuracy", "Certainty", "Prediction", "Payment Probability",
                                              "Payment Codes"])
-        df.to_csv(self.SourcePath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%Y%m%d')}").joinpath(f"CustomerTestDataFrame{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.csv"))
+        df.to_csv(
+            self.docPath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+                f"CustomerTestDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         dfError = pd.DataFrame.from_dict(ErrorDict, orient="index", columns=["Error"])
-        dfError.to_csv(self.SourcePath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%Y%m%d')}").joinpath(f"CustomerErrorDataFrame{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.csv"))
+        dfError.to_csv(
+            self.docPath.joinpath('Output').joinpath(f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
+                f"CustomerErrorDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
 
         self.loadingAnimator.stop()
 
-        print(Fore.GREEN + f"Output saved in Output/Full{datetime.datetime.today().strftime('%Y%m%d')} folder." + Style.RESET_ALL)
+        print(
+            Fore.GREEN + f"Output saved in {str(self.docPath.joinpath('Output'))}/Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')} folder." + Style.RESET_ALL)
         if input("Do you want to exit the program? Y/N: ").lower() == "y":
             self.exitFlag = True
         else:
@@ -208,55 +223,55 @@ class GraphicalUserInterface:
 
     def trainMethod(self):
         print(self.dividerSmall("Selection Menu", method="return", padding=8) + """
-    1.""" + Fore.BLUE + """[O]""" + Style.RESET_ALL + """ptimal (Est. 4 Hours)
-    2.""" + Fore.BLUE + """[F]""" + Style.RESET_ALL + """ast (Est. 5 Min)
-    3.""" + Fore.BLUE + """[C]""" + Style.RESET_ALL + """ustom
-    4.""" + Fore.BLUE + """[E]""" + Style.RESET_ALL + f"""xit{self.dividerSmall(None, method="return", fullLength=30)}
+    1.""" + Fore.CYAN + """[O]""" + Style.RESET_ALL + """ptimal (Est. 4 Hours)
+    2.""" + Fore.CYAN + """[F]""" + Style.RESET_ALL + """ast (Est. 5 Min)
+    3.""" + Fore.CYAN + """[C]""" + Style.RESET_ALL + """ustom
+    4.""" + Fore.CYAN + """[E]""" + Style.RESET_ALL + f"""xit{self.dividerSmall(None, method="return", fullLength=30)}
         """, flush=True)
 
         selVal = input("Please make a selection: ")
 
         if selVal.lower() == "o":
             print(
-                Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}" + Style.RESET_ALL)
+                Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
             input("Press [enter] to continue or Ctrl+C to cancel...")
 
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
-                                        f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                        self.SourcePath, "Data")
-            fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                        f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                        self.docPath, "Data")
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
-                           f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                           f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid="optimal",
                            Folder="Data")
             self.loadingAnimator.stop()
             input("Press [enter] to continue...")
         elif selVal.lower() == "f":
             print(
-                Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}" + Style.RESET_ALL)
+                Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
             input("Press [enter] to continue or Ctrl+C to cancel...")
 
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
-                                        f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                        self.SourcePath, "Data")
-            fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                        f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                        self.docPath, "Data")
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
-                           f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                           f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid="fast",
                            Folder="Data")
             self.loadingAnimator.stop()
             input("Press [enter] to continue...")
         elif selVal.lower() == "c":
             print(
-                Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}" + Style.RESET_ALL)
+                Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
             n_estimatorsInp = input("Please input an integer to denote the N estimators: ")
             max_depthInp = input("Please input an integer to denote the max tree depth: ")
 
@@ -269,19 +284,19 @@ class GraphicalUserInterface:
                          "subsample": [1]}
 
             input(
-                f"Press [enter] to continue learning with" + Fore.BLUE + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
-                Fore.BLUE + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
+                f"Press [enter] to continue learning with" + Fore.CYAN + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
+                Fore.CYAN + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
 
             self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                    "Creating ML Model Complete",
                                                    "Creating ML Model Failed").start()
-            fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+            fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             self.scalerObj = dataScaler(fileName,
-                                        f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                        self.SourcePath, "Data")
-            fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                        f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                        self.docPath, "Data")
+            fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
             machineLearner(self.scalerObj.scaledDf, fileName,
-                           f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                           f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                            ParamGrid=ParamGrid,
                            Folder="Data")
             self.loadingAnimator.stop()
@@ -296,12 +311,12 @@ class GraphicalUserInterface:
 
         if selection == "i":
             self.passFlag = True
-            print(Fore.BLUE + """Individual Method Selected
+            print(Fore.CYAN + """Individual Method Selected
             """ + Style.RESET_ALL, flush=True)
             self.individualMethod()
 
         elif selection == "f":
-            print(Fore.BLUE + "Full Prediction Method Selected" + Fore.YELLOW +
+            print(Fore.CYAN + "Full Prediction Method Selected" + Fore.YELLOW +
                   "\nWARNING: This method can take a lot of time (Est. 5 hours)." + Style.RESET_ALL, flush=True)
 
             selVal = input("Are you sure you want to continue? Y/N:")
@@ -313,7 +328,9 @@ class GraphicalUserInterface:
 
         elif selection == "t":
             self.passFlag = True
-            print(Fore.BLUE + "Model Training Method Selected" + Fore.YELLOW + "\nWARNING: This method can take a lot of time when using Optimal Parameters (Est. 4.5 hours)." + Style.RESET_ALL, flush=True)
+            print(
+                Fore.CYAN + "Model Training Method Selected" + Fore.YELLOW + "\nWARNING: This method can take a lot of time when using Optimal Parameters (Est. 4.5 hours)." + Style.RESET_ALL,
+                flush=True)
 
             selVal = input("Are you sure you want to continue? Y/N:")
 
@@ -335,10 +352,10 @@ class GraphicalUserInterface:
         self.passFlag = False
 
         print(self.dividerSmall("Selection Menu", method="return", padding=8) + """
-    1.""" + Fore.BLUE + """[I]""" + Style.RESET_ALL + """ndividual prediction
-    2.""" + Fore.BLUE + """[F]""" + Style.RESET_ALL + """ull set Prediction
-    3.""" + Fore.BLUE + """[T]""" + Style.RESET_ALL + """rain Model
-    4.""" + Fore.BLUE + """[E]""" + Style.RESET_ALL + f"""xit{self.dividerSmall(None, method="return", fullLength=30)}
+    1.""" + Fore.CYAN + """[I]""" + Style.RESET_ALL + """ndividual prediction
+    2.""" + Fore.CYAN + """[F]""" + Style.RESET_ALL + """ull set Prediction
+    3.""" + Fore.CYAN + """[T]""" + Style.RESET_ALL + """rain Model
+    4.""" + Fore.CYAN + """[E]""" + Style.RESET_ALL + f"""xit{self.dividerSmall(None, method="return", fullLength=30)}
         """, flush=True)
 
         while not self.passFlag:
@@ -361,7 +378,7 @@ class GraphicalUserInterface:
         self.verboseFlagBool = False
 
         self.dividerSmall(title="Initialization")
-        skipInput = input("Do you want to skip manual inputs?" + Style.RESET_ALL + " Y/N or [D]ebug: ").lower()
+        skipInput = input("Do you want to skip manual inputs?" + Style.RESET_ALL + " Y/N: ").lower()
 
         if skipInput == "y":
             self.skipFlag = True
@@ -378,34 +395,38 @@ class GraphicalUserInterface:
 
             if self.initFlag and not reloadFlag:
                 recreateInp = input(
-                    "Did" + Fore.BLUE + " tblXmain_transactions.csv" + Style.RESET_ALL + " get Updated? Y/N:" + Fore.RED + " [Y will recreate all files]: " + Style.RESET_ALL)
+                    "Did" + Fore.CYAN + " tblXmain_transactions.csv" + Style.RESET_ALL + " get Updated? Y/N:" + Fore.RED + " [Y will recreate all files]: " + Style.RESET_ALL)
                 if recreateInp.lower() == "y":
                     reloadFlag = True
                     print(
                         Fore.YELLOW + " Note: The next question does not impact results by a large margin. \n    Only do this if you can spare the time or if the source table variables (additions or deletions) changed." + Style.RESET_ALL)
                     if input(
-                            "Do you want to retrain the scaler and ensemble tree model? " + Fore.BLUE + "(Est. Time 4 Hours)" + Style.RESET_ALL + " Y/N:").lower() == "y":
+                            "Do you want to retrain the scaler and ensemble tree model? " + Fore.CYAN + "(Est. Time 4 Hours)" + Style.RESET_ALL + " Y/N:").lower() == "y":
                         retrainFlag = True
                 else:
                     pass
             else:
                 reloadFlag = False
                 pass
+            
+            # Data Folder
+            if not os.path.exists(self.docPath):
+                os.mkdir(self.docPath)
 
             self.dividerSmall(title="Data Folder")
 
             # Data Folder
-            if not os.path.exists(self.SourcePath.joinpath("Data")):
+            if not os.path.exists(self.docPath.joinpath("Data")):
                 if input(
                         Fore.RED + "[Data] folder not found. \n" + Style.RESET_ALL + "Do you want to create a folder? Y/N:").lower() == "y":
-                    os.mkdir((self.SourcePath.joinpath("Data")))
+                    os.mkdir((self.docPath.joinpath("Data")))
                     print(
-                        Fore.GREEN + f"\nFolder [Data] created at: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                        Fore.GREEN + f"\nFolder [Data] created at: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                     input(
                         Fore.YELLOW + "Please move any files to the created [data] folder." + Style.RESET_ALL + " Press [enter] when ready to continue...")
                 else:
                     print(
-                        Fore.RED + f"\nAction cancelled please make sure this folder exists:\n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                        Fore.RED + f"\nAction cancelled please make sure this folder exists:\n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                     print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                     time.sleep(3)
                     self.exitFlag = True
@@ -416,15 +437,15 @@ class GraphicalUserInterface:
             self.dividerSmall(title="Output Folder")
 
             # OUTPUT FOLDER
-            if not os.path.exists(self.SourcePath.joinpath("Output")):
+            if not os.path.exists(self.docPath.joinpath("Output")):
                 if input(
                         Fore.RED + "[Output] folder not found. \n" + Style.RESET_ALL + "Do you want to create a folder? Y/N: ").lower() == "y":
-                    os.mkdir((self.SourcePath.joinpath("Output")))
+                    os.mkdir((self.docPath.joinpath("Output")))
                     print(
-                        Fore.GREEN + f"Folder [Output] created at: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Output')}" + Style.RESET_ALL)
+                        Fore.GREEN + f"Folder [Output] created at: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Output')}" + Style.RESET_ALL)
                 else:
                     print(
-                        Fore.RED + f"\nAction cancelled please make sure this folder exists: \n" + Fore.BLUE + f"{self.SourcePath.joinpath('Output')}" + Style.RESET_ALL)
+                        Fore.RED + f"\nAction cancelled please make sure this folder exists: \n" + Fore.CYAN + f"{self.docPath.joinpath('Output')}" + Style.RESET_ALL)
                     print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                     time.sleep(3)
                     self.exitFlag = True
@@ -443,8 +464,8 @@ class GraphicalUserInterface:
                                                        "Loading dfClean Failed",
                                                        0.05).start()
 
-                fileName = directoryScanner("dfClean", self.SourcePath, Folder="Data", returnMethod="Last")
-                self.sourceObj = dataFrameLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
+                fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                self.sourceObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
                 try:
@@ -457,7 +478,7 @@ class GraphicalUserInterface:
                     if input(
                             Fore.RED + "[dfClean] not found!!! " + Style.RESET_ALL + "Do you want to create this file? Y/N:").lower() == "y":
                         print(
-                            Fore.YELLOW + f"Make sure " + Fore.BLUE + "[tblXmain_transactions.csv]" + Fore.YELLOW + " exists the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.YELLOW + f"Make sure " + Fore.CYAN + "[tblXmain_transactions.csv]" + Fore.YELLOW + " exists the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         if not self.skipFlag:
                             input(
                                 "Press [enter] to continue" + " (Est. Time = 2 Minutes)..." + Style.RESET_ALL)
@@ -465,27 +486,27 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Cleaning Data Set...", "Cleaning Complete",
                                                                "Cleaning Failed").start()
                         DataCleaner("tblXmain_transactions.csv",
-                                    f"dfClean{datetime.datetime.today().strftime('%Y_%m_%d')}.csv", "Data",
-                                    path=self.SourcePath, verbose=self.verboseFlagBool)
+                                    f"dfClean{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                                    path=self.docPath, verbose=self.verboseFlagBool)
                         self.loadingAnimator.stop()
                     else:
                         print(
-                            Fore.RED + f"\nAction cancelled please make " + Fore.BLUE + "[dfClean.csv]" + Fore.RED + " exists in \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.RED + f"\nAction cancelled please make " + Fore.CYAN + "[dfClean.csv]" + Fore.RED + " exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                         time.sleep(3)
                         self.exitFlag = True
                         return
                 else:
                     print(
-                        Fore.GREEN + "Rebuilding CleanDF" + Fore.YELLOW + f"Make sure " + Fore.BLUE + "[tblXmain_transactions.csv]" + Fore.YELLOW + " exists the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                        Fore.GREEN + "Rebuilding CleanDF" + Fore.YELLOW + f"Make sure " + Fore.CYAN + "[tblXmain_transactions.csv]" + Fore.YELLOW + " exists the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                     if not self.skipFlag:
                         input("Press [enter] to continue" + " (Est. Time = 2 Minutes)..." + Style.RESET_ALL)
                     self.loadingAnimator = loadingAnimator("Cleaning Data Set...", "Cleaning Complete",
                                                            "Cleaning Failed").start()
-                    fileName = directoryScanner("tblXmain_transactions", self.SourcePath, Folder="Data",
-                                                returnMethod="Last")
-                    DataCleaner(fileName, f"dfClean{datetime.datetime.today().strftime('%Y_%m_%d')}.csv", "Data",
-                                path=self.SourcePath, verbose=self.verboseFlagBool)
+                    fileName = directoryScanner("tblXmain_transactions", self.docPath, Folder="Data",
+                                                returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                    DataCleaner(fileName, f"dfClean{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                                path=self.docPath, verbose=self.verboseFlagBool)
                     self.loadingAnimator.stop()
 
             self.dividerSmall(title="dfDummy & dfTarget Data")
@@ -498,10 +519,10 @@ class GraphicalUserInterface:
                 self.loadingAnimator = loadingAnimator("Loading dfDummy and dfTarget...",
                                                        "Loading dfDummy and dfTarget Complete",
                                                        "Loading dfDummy and dfTarget Failed").start()
-                fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
-                self.dummyObj = dataFrameLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
-                fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
-                self.targetObj = dataFrameLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
+                fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                self.dummyObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
+                fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                self.targetObj = dataFrameLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
                 try:
@@ -514,7 +535,7 @@ class GraphicalUserInterface:
                     if input(
                             Fore.RED + "[dfDummy] or [dfTarget] not found!!! " + Style.RESET_ALL + f"Do you want to create this file? Y/N:").lower() == "y":
                         print(
-                            Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         if not self.skipFlag:
                             input(
                                 "Press [enter] to continue " + " (Est. Time = 1 Minute)..." + Style.RESET_ALL)
@@ -522,29 +543,30 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Machine Learning Preparation...",
                                                                "Machine Learning Preparation Complete",
                                                                "Machine Learning Preparation Failed").start()
-                        fileName = directoryScanner("dfClean", self.SourcePath, Folder="Data", returnMethod="Last")
-                        dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%Y_%m_%d')}.csv",
-                                   f"dfTarget{datetime.datetime.today().strftime('%Y_%m_%d')}.csv", "Data",
+                        fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                        dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
+                                   f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
                                    verbose=self.verboseFlagBool)
                         self.loadingAnimator.stop()
                     else:
                         print(
-                            Fore.RED + f"\n Action cancelled please make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.RED + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.RED + " exist in \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.RED + f"\n Action cancelled please make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.RED + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.RED + " exist in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                         time.sleep(3)
                         self.exitFlag = True
                         return
                 else:
                     print(
-                        Fore.GREEN + "Rebuilding dfDummy and dfTarget. " + Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                        Fore.GREEN + "Rebuilding dfDummy and dfTarget. " + Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                     if not self.skipFlag:
                         input("Press [enter] to continue " + " (Est. Time = 1 Minute)..." + Style.RESET_ALL)
                     self.loadingAnimator = loadingAnimator("Machine Learning Preparation...",
                                                            "Machine Learning Preparation Complete",
                                                            "Machine Learning Preparation Failed").start()
-                    fileName = directoryScanner("dfClean", self.SourcePath, Folder="Data", returnMethod="Last")
-                    dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%Y_%m_%d')}.csv",
-                               f"dfTarget{datetime.datetime.today().strftime('%Y_%m_%d')}.csv", "Data", verbose=self.verboseFlagBool)
+                    fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                    dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
+                               f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                               verbose=self.verboseFlagBool)
                     self.loadingAnimator.stop()
 
             self.dividerSmall(title="Scaling Model")
@@ -556,8 +578,8 @@ class GraphicalUserInterface:
 
                 self.loadingAnimator = loadingAnimator("Loading Scaling Model...", "Loading Scaling Model Complete",
                                                        "Loading Scaling Model Failed").start()
-                fileName = directoryScanner("scaler", self.SourcePath, Folder="Data", returnMethod="Last")
-                self.scalerObj = modelLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
+                fileName = directoryScanner("scaler", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                self.scalerObj = modelLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
                 try:
@@ -571,7 +593,7 @@ class GraphicalUserInterface:
                     if input(
                             Fore.RED + "[scaler.sav] not found or corrupted!!! " + Style.RESET_ALL + f"Do you want to create this file? Y/N:").lower() == "y":
                         print(
-                            Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         if not self.skipFlag:
                             input(
                                 "Press [enter] to continue " + " (Est. Time = 30 Seconds)..." + Style.RESET_ALL)
@@ -579,21 +601,21 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating Scaling Model...",
                                                                "Creating Scaling Model Complete",
                                                                "Creating Scaling Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
                         self.loadingAnimator.stop()
                     else:
                         print(
-                            Fore.RED + f"\n Action cancelled please make " + Fore.BLUE + "[scaler.sav]" + Fore.RED + " exists in \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.RED + f"\n Action cancelled please make " + Fore.CYAN + "[scaler.sav]" + Fore.RED + " exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                         time.sleep(3)
                         self.exitFlag = True
                         return
                 else:
                     print(
-                        Fore.BLUE + "Scaler Model will be retrained in the next section.")
+                        Fore.CYAN + "Scaler Model will be retrained in the next section.")
                     pass
 
             self.dividerSmall(title="Machine Learning Model")
@@ -605,8 +627,8 @@ class GraphicalUserInterface:
 
                 self.loadingAnimator = loadingAnimator("Loading ML Model...", "Loading ML Model Complete",
                                                        "Loading ML Model Failed").start()
-                fileName = directoryScanner("model", self.SourcePath, Folder="Data", returnMethod="Last")
-                self.modelObj = modelLoader(fileName, self.SourcePath, "Data", verbose=self.verboseFlagBool)
+                fileName = directoryScanner("model", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
+                self.modelObj = modelLoader(fileName, self.docPath, "Data", verbose=self.verboseFlagBool)
                 self.loadingAnimator.stop()
             except Exception as e:
                 try:
@@ -617,10 +639,10 @@ class GraphicalUserInterface:
                     print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
                 if not reloadFlag and not retrainFlag:
                     methodChoice = input(
-                        Fore.RED + "[model.sav] not found or corrupted!!! " + Style.RESET_ALL + "\nDo you want to create this file using " + Fore.BLUE + "[O]" + Style.RESET_ALL + "ptimal, (Est. 4 Hours)" + Fore.BLUE + "[F]" + Style.RESET_ALL + "ast (Est. 5 min), or " + Fore.BLUE + "[C]" + Style.RESET_ALL + "ustom parameters? or " + Fore.BLUE + "[E]" + Style.RESET_ALL + "xit this action?:")
+                        Fore.RED + "[model.sav] not found or corrupted!!! " + Style.RESET_ALL + "\nDo you want to create this file using " + Fore.CYAN + "[O]" + Style.RESET_ALL + "ptimal, (Est. 4 Hours)" + Fore.CYAN + "[F]" + Style.RESET_ALL + "ast (Est. 5 min), or " + Fore.CYAN + "[C]" + Style.RESET_ALL + "ustom parameters? or " + Fore.CYAN + "[E]" + Style.RESET_ALL + "xit this action?:")
                     if methodChoice.lower() == "o":
                         print(
-                            Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         if not self.skipFlag:
                             input(
                                 "Press [enter] to continue or Ctrl+C to cancel " + Style.RESET_ALL)
@@ -628,13 +650,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="optimal",
                                        Folder="Data")
                         self.loadingAnimator.stop()
@@ -646,13 +668,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="fast",
                                        Folder="Data")
                         self.loadingAnimator.stop()
@@ -670,37 +692,37 @@ class GraphicalUserInterface:
 
                         if not self.skipFlag:
                             input(
-                                f"Press [enter] to continue learning with" + Fore.BLUE + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
-                                Fore.BLUE + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
+                                f"Press [enter] to continue learning with" + Fore.CYAN + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
+                                Fore.CYAN + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
 
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid=ParamGrid,
                                        Folder="Data")
                         self.loadingAnimator.stop()
                     else:
                         print(
-                            Fore.RED + f"\n Action cancelled please make " + Fore.BLUE + "[model.sav]" + Fore.RED + " exists in \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.RED + f"\n Action cancelled please make " + Fore.CYAN + "[model.sav]" + Fore.RED + " exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                         time.sleep(3)
                         self.exitFlag = True
                         return
                 else:
                     print(
-                        Fore.GREEN + "Rebuilding Scaler and Ensemble Models. " + Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                        Fore.GREEN + "Rebuilding Scaler and Ensemble Models. " + Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfClean.csv]" + Fore.YELLOW + " exists in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                     methodChoice = input(
-                        "Do you want to train the model with " + Fore.BLUE + "[O]" + Style.RESET_ALL + "ptimal, " + Fore.BLUE + "[F]" + Style.RESET_ALL + "ast, or " + Fore.BLUE + "[C]" + Style.RESET_ALL + "ustom parameters?")
+                        "Do you want to train the model with " + Fore.CYAN + "[O]" + Style.RESET_ALL + "ptimal, " + Fore.CYAN + "[F]" + Style.RESET_ALL + "ast, or " + Fore.CYAN + "[C]" + Style.RESET_ALL + "ustom parameters?")
                     if methodChoice.lower() == "o":
                         print(
-                            Fore.YELLOW + f"Make sure " + Fore.BLUE + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.BLUE + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}" + Style.RESET_ALL)
+                            Fore.YELLOW + f"Make sure " + Fore.CYAN + "[dfDummy.csv]" + Fore.YELLOW + " and " + Fore.CYAN + "[dfTarget.csv]" + Fore.YELLOW + " exist in the folder: \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         if not self.skipFlag:
                             input(
                                 "Press [enter] to continue or Ctrl+C to cancel " + Style.RESET_ALL)
@@ -708,13 +730,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="optimal",
                                        Folder="Data")
                         self.loadingAnimator.stop()
@@ -726,13 +748,13 @@ class GraphicalUserInterface:
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid="fast",
                                        Folder="Data")
                         self.loadingAnimator.stop()
@@ -750,31 +772,29 @@ class GraphicalUserInterface:
 
                         if not self.skipFlag:
                             input(
-                                f"Press [enter] to continue learning with" + Fore.BLUE + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
-                                Fore.BLUE + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
+                                f"Press [enter] to continue learning with" + Fore.CYAN + f"N_est = {n_estimatorsInp}" + Style.RESET_ALL + " and " +
+                                Fore.CYAN + f"Max depth = {max_depthInp}" + Style.RESET_ALL + " or Ctrl+C to cancel...")
 
                         self.loadingAnimator = loadingAnimator("Creating ML Model...",
                                                                "Creating ML Model Complete",
                                                                "Creating ML Model Failed").start()
-                        fileName = directoryScanner("dfDummy", self.SourcePath, Folder="Data", returnMethod="Last")
+                        fileName = directoryScanner("dfDummy", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         self.scalerObj = dataScaler(fileName,
-                                                    f"scaler{datetime.datetime.today().strftime('%Y_%m_%d')}.sav",
-                                                    self.SourcePath, "Data")
-                        fileName = directoryScanner("dfTarget", self.SourcePath, Folder="Data", returnMethod="Last")
+                                                    f"scaler{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav",
+                                                    self.docPath, "Data")
+                        fileName = directoryScanner("dfTarget", self.docPath, Folder="Data", returnMethod="Last", loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         machineLearner(self.scalerObj.scaledDf, fileName,
-                                       f"model{datetime.datetime.today().strftime('%Y_%m_%d')}.sav", self.SourcePath,
+                                       f"model{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.sav", self.docPath,
                                        ParamGrid=ParamGrid,
                                        Folder="Data")
                         self.loadingAnimator.stop()
                     else:
                         print(
-                            Fore.RED + f"\n Wrong input detected" + Fore.BLUE + "[model.sav]" + Fore.RED + " exists in \n" + Fore.BLUE + f"  {self.SourcePath.joinpath('Data')}"  + Style.RESET_ALL)
+                            Fore.RED + f"\n Wrong input detected" + Fore.CYAN + "[model.sav]" + Fore.RED + " exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}" + Style.RESET_ALL)
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
                         time.sleep(3)
                         self.exitFlag = True
                         return
-
-
 
             if reloadFlag:
                 self.initFlag = True
@@ -849,28 +869,28 @@ class GraphicalUserInterface:
 {"-" * leftLength}{str(title).lower().capitalize()}{"-" * rightLength}"""
 
         if method.lower() == "print":
-            print(Fore.CYAN + dividerText + Style.RESET_ALL)
+            print(Fore.MAGENTA + dividerText + Style.RESET_ALL)
         elif method.lower() == "return":
-            return Fore.CYAN + dividerText + Style.RESET_ALL
+            return Fore.MAGENTA + dividerText + Style.RESET_ALL
 
 
 class loadingAnimator:
     def __init__(self, desc="Loading...", end="Done!", error="Loading Failed", timeout=0.3):
-        self.desc = Fore.BLUE + desc + Style.RESET_ALL
+        self.desc = Fore.CYAN + desc + Style.RESET_ALL
         self.end = Fore.GREEN + end + Style.RESET_ALL
         self.timeout = timeout
         self.error = Fore.RED + error + Style.RESET_ALL
         self.startTime = time.time()
 
         self._thread = Thread(target=self._animate, daemon=True)
-        self.steps = [Fore.BLUE + f"⢿" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣻" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣽" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣾" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣷" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣯" + Style.RESET_ALL,
-                      Fore.BLUE + f"⣟" + Style.RESET_ALL,
-                      Fore.BLUE + f"⡿" + Style.RESET_ALL]
+        self.steps = [Fore.CYAN + f"⢿" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣻" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣽" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣾" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣷" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣯" + Style.RESET_ALL,
+                      Fore.CYAN + f"⣟" + Style.RESET_ALL,
+                      Fore.CYAN + f"⡿" + Style.RESET_ALL]
         self.done = False
 
     def start(self):
