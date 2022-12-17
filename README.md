@@ -11,16 +11,15 @@ An all in one solution for employing XGboost machine learning to predict custome
 
 # VERSION INFO
 1. Python=3.10
-2. pandas=1.5.2
-3. scikit-learn=1.1.3
-4. numpy=1.23.4
-5. ipython=8.6.0
-6. requests=2.28.1
-7. six=1.16.0
-8. setuptools=65.5.0
-9. seaborn=0.12.1
-10. tabulate=0.8.10
-11. colorama=0.4.5
+2. colorama=0.4.6
+3. pandas=1.5.2
+4. scikit-learn=1.1.3
+5. numpy=1.23.4
+6. seaborn=0.12.1
+7. xgboost=1.7.2
+8. ipython=8.6.0
+9. tabulate=0.8.10
+10. pyodbc=4.0.35
 
 _Note: Use latest viable requirements for versions above_
 
