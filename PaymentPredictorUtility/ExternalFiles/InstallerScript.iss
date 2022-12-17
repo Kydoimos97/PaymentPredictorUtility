@@ -2,15 +2,18 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Avid Payment Predictor"
-#define MyAppVersion "1.5"
+#define MyAppVersion "2.0"
 #define MyAppPublisher "Willem van der Schans"
 #define MyAppURL "https://github.com/Kydoimos97/PaymentPredictorUtility"
-#define MyAppExeName "Avid Payment Predictor.exe"
+#define MyAppExeName "AvidPaymentPredictor.exe"
+#define MyAppAssocName MyAppName + " Model File"
+#define MyAppAssocExt ".sav"
+#define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{F4666FC9-23D8-4185-8402-0E4E85F4B686}
+AppId={{72A5F92F-3C1A-4101-B3D6-BAB7191A6F90}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -18,15 +21,16 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName=C:\Program Files\AvidPaymentPredictor
+DefaultDirName={autopf}\AvidPaymentPredictor
+DisableDirPage=yes
+ChangesAssociations=yes
 DisableProgramGroupPage=yes
 LicenseFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\Avid_Acceptance\AvidAcceptance\Github\PaymentPredictorUtility\ExternalFiles\License.txt.txt
 InfoAfterFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\Avid_Acceptance\AvidAcceptance\Github\PaymentPredictorUtility\ExternalFiles\InfoFile.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\Users\wille\Desktop\PaymentProb\CompilerOut
-OutputBaseFilename=Avid Payment Predictor
+OutputDir=C:\Users\wille\Desktop\PaymentProb\Innosetup
+OutputBaseFilename=AvidPaymentPredictorSetup
 SetupIconFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\Avid_Acceptance\AvidAcceptance\Github\PaymentPredictorUtility\ExternalFiles\logoonly.ico
 Compression=lzma
 SolidCompression=yes
@@ -39,14 +43,18 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\wille\Desktop\PaymentProb\Output\Avid Payment Predictor\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\wille\Desktop\PaymentProb\Output\Avid Payment Predictor\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\wille\Desktop\PaymentProb\AvidPaymentPredictor\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\.temp"; DestDir: "C:\Users\{username}\AvidPaymentPredictor\Output"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost1_0_7.sav"; DestDir: "C:\Users\{username}\AvidPaymentPredictor\Data"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+[Registry]
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
