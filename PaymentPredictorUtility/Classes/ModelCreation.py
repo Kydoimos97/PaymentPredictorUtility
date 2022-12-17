@@ -318,9 +318,9 @@ class machineLearner:
             print(f"Train Exported in {time.time() - self.startTime} seconds")
         self.startTime = time.time()
 
-        result = f"\nIn-sample: Accuracy = " + Fore.BLUE + f"{round(insampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.BLUE + f"{round(insampleAUC,2)}" + Style.RESET_ALL + " | Out-of-Sample: Accuracy = " + Fore.BLUE + f"{round(outsampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.BLUE + f"{round(outsampleAUC,2)}" + Style.RESET_ALL + f"\n with parameters: {epochParamGrid}"
+        result = f"\nIn-sample: Accuracy = " + Fore.CYAN + f"{round(insampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.CYAN + f"{round(insampleAUC,2)}" + Style.RESET_ALL + " | Out-of-Sample: Accuracy = " + Fore.CYAN + f"{round(outsampleAcc,2)}" + Style.RESET_ALL + ", AUC = " + Fore.CYAN + f"{round(outsampleAUC,2)}" + Style.RESET_ALL + f"\n with parameters: {epochParamGrid}"
         result_bare = f"In-sample: Accuracy = {round(insampleAcc,2)}, AUC = {round(insampleAUC,2)} | Out-of-Sample: Accuracy = {round(outsampleAcc,2)}, AUC = {round(outsampleAUC,2)} \nwith parameters: {epochParamGrid}"
-        file_path = Path(os.getcwd()).joinpath('Output').joinpath(":ogs").joinpath(f"ModelLog{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.log")
+        file_path = Path(os.getcwd()).joinpath('Output').joinpath("Logs").joinpath(f"ModelLog{datetime.datetime.today().strftime('%Y%m%d_%H%M')}.log")
 
         if not os.path.exists(Path(os.getcwd()).joinpath('Output').joinpath("Logs")):
             os.mkdir(Path(os.getcwd()).joinpath('Output').joinpath("Logs"))
@@ -329,7 +329,7 @@ class machineLearner:
             fp.write(result_bare)
 
         print(result)
-        print(f"Log file saved to: " + Fore.BLUE + f"{file_path}")
+        print(f"Log file saved to: " + Fore.CYAN + f"{file_path}")
 
     def __KNNTrainer(self, Gridsearch):
 

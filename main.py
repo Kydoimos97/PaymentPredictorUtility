@@ -3,11 +3,10 @@ import traceback
 
 from colorama import Fore, init
 
-from PaymentProb.Classes.GraphicalUserInterFace import GraphicalUserInterface
-from PaymentProb.Functions.ErrorCodes import ErrorProcessor
+from PaymentPredictorUtility.Classes.GraphicalUserInterFace import GraphicalUserInterface
+from PaymentPredictorUtility.Functions.ErrorCodes import ErrorProcessor
 
 init(autoreset=True, convert=True)
-#init(autoreset=True)
 
 try:
     import pyi_splash
@@ -20,6 +19,7 @@ if __name__ == '__main__':
     graphObj = GraphicalUserInterface()
     try:
         graphObj.showGui()
+        print()
         input(Fore.GREEN + "Press Enter to Exit Program...")
     except FileNotFoundError as e:
         print(e)  # DEBUGI
