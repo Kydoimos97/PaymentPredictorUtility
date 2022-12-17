@@ -44,8 +44,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\wille\Desktop\PaymentProb\AvidPaymentPredictor\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\wille\Desktop\PaymentProb\.temp"; DestDir: "C:\Users\{username}\AvidPaymentPredictor\Output"; Flags: ignoreversion
-Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost1_0_7.sav"; DestDir: "C:\Users\{username}\AvidPaymentPredictor\Data"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\.temp"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Output"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost1_0_7.sav"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Data"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 [Registry]
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
