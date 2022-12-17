@@ -5,7 +5,7 @@
 #define MyAppVersion "2.0"
 #define MyAppPublisher "Willem van der Schans"
 #define MyAppURL "https://github.com/Kydoimos97/PaymentPredictorUtility"
-#define MyAppExeName "AvidPaymentPredictor.exe"
+#define MyAppExeName "Avid Payment Predictor.exe"
 #define MyAppAssocName MyAppName + " Model File"
 #define MyAppAssocExt ".sav"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt

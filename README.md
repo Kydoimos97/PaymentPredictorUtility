@@ -34,23 +34,37 @@ The setup will guide you through file placement.
 
 <h4>Main Screen</h4>
 
-![mainscreen](PaymentPredictorUtility/ExternalFiles/MainScreen.png)
+![mainscreen](PaymentPredictorUtility/ExternalFiles/Images/MainScreen.png)
 
 <h4>Individual Prediction</h4>
 
-![individual prediction](PaymentPredictorUtility/ExternalFiles/IndividualMethod.png)
+![individual prediction](PaymentPredictorUtility/ExternalFiles/Images/IndividualMethod.png)
 
 <h4>Model Training</h4>
 
-![training mode](PaymentPredictorUtility/ExternalFiles/TrainMethod.png)
+![training mode](PaymentPredictorUtility/ExternalFiles/Images/TrainMethod.png)
+
+<h4>Full Set Prediction</h4>
+
+![](PaymentPredictorUtility/ExternalFiles/Images/FullMethod.png)
 
 <h4>Debug Mode</h4>
 
-![debug mode](PaymentPredictorUtility/ExternalFiles/DebugMode.png)
+![debug mode](PaymentPredictorUtility/ExternalFiles/Images/DebugMode.png)
+
+<h4>File Selector</h4>
+
+![](PaymentPredictorUtility/ExternalFiles/Images/FileSelector.png)
+
+<h4>Retrieve Table from Sql</h4>
+
+![](PaymentPredictorUtility/ExternalFiles/Images/GetTableMethod.png)
 
 <h4>Exit Option</h4>
 
-![exit](PaymentPredictorUtility/ExternalFiles/ExitMethod.png)
+![exit](PaymentPredictorUtility/ExternalFiles/Images/ExitMethod.png)
+
+
 
 </div>
 
