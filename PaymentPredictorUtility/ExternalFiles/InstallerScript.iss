@@ -35,6 +35,7 @@ SetupIconFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\Avid_Acceptance\AvidAcc
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -43,7 +44,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\wille\Desktop\PaymentProb\AvidPaymentPredictor\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\AvidPaymentPredictor\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\wille\Desktop\PaymentProb\.temp"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Output"; Flags: ignoreversion
 Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost1_0_7.sav"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Data"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

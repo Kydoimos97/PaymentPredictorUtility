@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/main.py"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/main.py"
   },
   {
    "optionDest": "onefile",
@@ -27,11 +27,11 @@
   },
   {
    "optionDest": "ascii",
-   "value": true
+   "value": false
   },
   {
    "optionDest": "clean_build",
-   "value": true
+   "value": false
   },
   {
    "optionDest": "splash",
@@ -51,7 +51,7 @@
   },
   {
    "optionDest": "embed_manifest",
-   "value": true
+   "value": false
   },
   {
    "optionDest": "uac_admin",
@@ -79,7 +79,7 @@
   },
   {
    "optionDest": "datas",
-   "value": "C:/Users/wille/.conda/envs/Core/Library/mingw-w64;./Library/mingw-w64"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/ExternalFiles/Main.sql;./SQL/"
   },
   {
    "optionDest": "collect_all",
@@ -90,8 +90,8 @@
    "value": "pyarrow"
   },
   {
-   "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/Avid_Acceptance/AvidAcceptance/Github/PaymentPredictorUtility/ExternalFiles/Main.sql;."
+   "optionDest": "collect_all",
+   "value": "colorama"
   }
  ],
  "nonPyinstallerOptions": {
