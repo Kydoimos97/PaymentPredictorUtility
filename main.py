@@ -7,7 +7,6 @@ from PaymentPredictorUtility.Classes.GraphicalUserInterFace import GraphicalUser
 from PaymentPredictorUtility.Functions.ErrorCodes import ErrorProcessor
 
 init(autoreset=True, convert=True)
-#init(autoreset=True)
 
 try:
     import pyi_splash
