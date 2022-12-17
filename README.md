@@ -3,7 +3,7 @@
 
 # Payment Predictor Util 1.0
 
-![project logo](ExternalFiles/Logo.png)
+![project logo](PaymentPredictorUtility/ExternalFiles/Logo.png)
 
 An all in one solution for employing XGboost machine learning to predict customer's probability of payment.
 
@@ -34,23 +34,23 @@ The setup will guide you through file placement.
 
 <h4>Main Screen</h4>
 
-![mainscreen](ExternalFiles/MainScreen.png)
+![mainscreen](PaymentPredictorUtility/ExternalFiles/MainScreen.png)
 
 <h4>Individual Prediction</h4>
 
-![individual prediction](ExternalFiles/IndividualMethod.png)
+![individual prediction](PaymentPredictorUtility/ExternalFiles/IndividualMethod.png)
 
 <h4>Model Training</h4>
 
-![training mode](ExternalFiles/TrainMethod.png)
+![training mode](PaymentPredictorUtility/ExternalFiles/TrainMethod.png)
 
 <h4>Debug Mode</h4>
 
-![debug mode](ExternalFiles/DebugMode.png)
+![debug mode](PaymentPredictorUtility/ExternalFiles/DebugMode.png)
 
 <h4>Exit Option</h4>
 
-![exit](ExternalFiles/ExitMethod.png)
+![exit](PaymentPredictorUtility/ExternalFiles/ExitMethod.png)
 
 </div>
 
