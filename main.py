@@ -22,7 +22,7 @@ if __name__ == '__main__':
         print()
         input(Fore.GREEN + "Press Enter to Exit Program...")
     except FileNotFoundError as e:
-        print(e)  # DEBUGI
+        print(e)  # DEBUG
         graphObj.loadingAnimator.stop(method="none")
         ErrorProcessor(1001, "", "")
         input(Fore.RED + "An Error Occurred | Press Enter to Kill Program...")

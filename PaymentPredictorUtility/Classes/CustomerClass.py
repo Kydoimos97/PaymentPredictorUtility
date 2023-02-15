@@ -115,7 +115,6 @@ class Customer:
         # Generate future transactions
         df = df.sort_values("payment_number").drop_duplicates('transaction_code', keep="last")
         df['payment_number'] += paymentNumberDistance
-        df.to_csv("Data/test2.csv")
         # Prediction
         CustomerPredProb = Model.predict_proba(df)
         CustomerAcc = pd.DataFrame(CustomerPredProb).rename(columns={0: "No Pay", 1: "Pay"})

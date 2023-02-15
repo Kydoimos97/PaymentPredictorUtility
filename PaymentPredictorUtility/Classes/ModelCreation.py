@@ -142,7 +142,7 @@ class machineLearner:
             # TODO Error
             raise ValueError
 
-    def __xgboostTrainer(self, Gridsearch, ParamGrid):
+    def __xgboostTrainer(self, Gridsearch, ParamGrid, Path, Folder):
 
         if Gridsearch:
 
@@ -308,12 +308,12 @@ class machineLearner:
         self.startTime = time.time()
 
         self.__xTest['prediction'] = self.PredOos[0]
-        self.__xTest.to_csv("Data/test.csv")
+        self.__xTest.to_csv(f"{self.__Path.joinpath('test.csv')}")
         if self.__verbose:
             print(f"Test Exported in {time.time() - self.startTime} seconds")
         self.startTime = time.time()
         self.__xTrain['prediction'] = self.PredIs[0]
-        self.__xTrain.to_csv("Data/train.csv")
+        self.__xTrain.to_csv(f"{self.__Path.joinpath('train.csv')}")
         if self.__verbose:
             print(f"Train Exported in {time.time() - self.startTime} seconds")
         self.startTime = time.time()

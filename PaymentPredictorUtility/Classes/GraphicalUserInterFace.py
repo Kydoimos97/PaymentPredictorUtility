@@ -133,26 +133,28 @@ class GraphicalUserInterface:
 
         # Save Output
         if not os.path.exists(Path(self.docPath).joinpath('Output').joinpath(
-                f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
+                f"Individual{datetime.datetime.today().strftime('%m%d%Y')}")):
             os.mkdir(Path(self.docPath).joinpath('Output').joinpath(
-                f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}"))
+                f"Individual{datetime.datetime.today().strftime('%m%d%Y')}"))
 
         df = pd.DataFrame.from_dict(customerDict, orient="index",
                                     columns=["Accuracy", "Certainty", "Prediction", "Payment Probability",
                                              "Payment Codes"])
         df.to_csv(self.docPath.joinpath('Output').joinpath(
-            f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
-            f"{acctrefno}TestDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
+            f"Individual{datetime.datetime.today().strftime('%m%d%Y')}").joinpath(
+            f"{acctrefno}_TestDataFrame.csv"))
 
         dfError = pd.DataFrame.from_dict(ErrorDict, orient="index", columns=["Error"])
         dfError.to_csv(self.docPath.joinpath('Output').joinpath(
-            f"Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}").joinpath(
-            f"{acctrefno}ErrorDataFrame{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv"))
+            f"Individual{datetime.datetime.today().strftime('%m%d%Y')}").joinpath(
+            f"{acctrefno}_ErrorDataFrame.csv"))
 
         self.loadingAnimator.stop()
 
+        print(f"Output = {Fore.CYAN + str(customerDict) + Style.RESET_ALL} \n Error = {Fore.CYAN + str(ErrorDict) + Style.RESET_ALL} \n")
+
         print(
-            Fore.GREEN + f"Output saved in {str(self.docPath.joinpath('Output'))}/Individual{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')} folder." + Style.RESET_ALL,
+            Fore.GREEN + f"Output saved in {str(self.docPath.joinpath('Output'))}\Individual{datetime.datetime.today().strftime('%m%d%Y')} folder." + Style.RESET_ALL,
             flush=True)
         if input("Do you want to exit the program? Y/N: ").lower() == "y":
             self.exitFlag = True
@@ -623,7 +625,7 @@ class GraphicalUserInterface:
                         fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
                                                     loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
-                                   f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                                   f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data", self.docPath,
                                    verbose=self.verboseFlagBool)
                         self.loadingAnimator.stop()
                     else:
@@ -644,7 +646,7 @@ class GraphicalUserInterface:
                     fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
                                                 loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                     dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
-                               f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                               f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data", self.docPath,
                                verbose=self.verboseFlagBool)
                     self.loadingAnimator.stop()
 
