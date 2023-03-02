@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Avid Payment Predictor"
-#define MyAppVersion "2.0"
+#define MyAppVersion "3.0"
 #define MyAppPublisher "Willem van der Schans"
 #define MyAppURL "https://github.com/Kydoimos97/PaymentPredictorUtility"
 #define MyAppExeName "Avid Payment Predictor.exe"
@@ -46,7 +46,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "C:\Users\wille\Desktop\PaymentProb\AvidPaymentPredictor\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\wille\Desktop\PaymentProb\.temp"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Output"; Flags: ignoreversion
-Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost1_0_7.sav"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Data"; Flags: ignoreversion
+Source: "C:\Users\wille\Desktop\PaymentProb\modelOptimalXGBoost.sav"; DestDir: "C:\Users\{username}\Documents\AvidPaymentPredictor\Data"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 [Registry]
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
