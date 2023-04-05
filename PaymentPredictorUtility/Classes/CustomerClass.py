@@ -1,29 +1,48 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 import pandas as pd
 from sklearn.metrics import accuracy_score
 
 
 class Customer:
-    """
-    My numpydoc description of a kind
-    of very exhautive numpydoc format docstring.
-
-    Attributes
-    ----------
-    acctrefno : int
-        the customer accrefno identifier int[5]
-    dfCleanName : String
-        Cleaned Dataframe file name exported by DataCleaner() include .csv
-    dfTargetName : String
-        Target Dataframe file name exported by DataCleaner() include .csv
-    dfDummiesName : String
-        Dummies Dataframe file name exported by DataCleaner() include .csv
-    Modelname : String
-        Model file name exported by pickle in MachineLearner() include file exstention
-    scalerName : String
-    """
 
     def __init__(self, acctrefno, dfClean, dfTarget, dfDummies, Model, Scaler, Folder=None):
-        # Customer Profile Variables
+       
+        """
+    The __init__ function is the first function that gets called when you create a new instance of a class.
+    It's job is to initialize all of the attributes of an object.
+    The self parameter refers to the current instance of an object, and allows us to access variables that belong
+    to classes
+
+    Args:
+        self: Represent the instance of the class
+        acctrefno: Identify the customer
+        dfClean: Get the data from the database
+        dfTarget: Get the target dataframe
+        dfDummies: Get the dummy variables for the customer
+        Model: Pass the model to the class
+        Scaler: Scale the data
+        Folder: Store the results of the prediction
+
+    Returns:
+        The object itself, which is assigned to the variable self
+
+    Doc Author:
+        Trelent
+    """
         self.acctrefno = acctrefno
         self.numberOfPayments = 0
         self.certainty = None
@@ -34,7 +53,7 @@ class Customer:
         self.paymentDates = None
         self.paymentPrediction = None
 
-        # Local Variables
+       
         self.__CustomerPred = None
 
         self.__target = None
@@ -43,30 +62,68 @@ class Customer:
         self.__dummy = None
         self.__Folder = None
 
-        # Get data and store
+       
         self.__df = self.__getData(dfClean)
         self.__dummy = self.__getData(dfDummies, Scaler, dfTarget, Mode="Dummy")
 
-        # Get folder
+       
         if Folder is None:
             self.__Folder = ""
         else:
             self.__Folder = Folder
 
-        # Prediction of Current values
+       
         self.__predFunc(Model)
 
-        # Predict future
+       
         self.__predFuture(Model)
 
     def getDF(self):
+        """
+    The getDF function returns a dataframe with the following columns:
+        - CustomerID
+        - Gender
+        - Age (in years)
+        - Annual Income (in thousands of dollars)
+        - Spending Score (0-100, where 100 is most likely to spend money in mall)
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A dataframe with the prediction column added
+
+    Doc Author:
+        Trelent
+    """
         df = self.__df
         df["prediction"] = self.__CustomerPred[1]
         return df
 
     def __getData(self, dfClean, Scaler=None, dfTarget=None, Mode=None):
 
-        # Get customer data subset
+       
+        """
+    The __getData function is used to get the data for a specific customer.
+    It takes in the following parameters:
+        dfClean - The cleaned dataset that has been preprocessed and scaled.
+        Scaler - The scaler object used to scale the data (if needed).  This is only required if Mode = &quot;Dummy&quot;.
+        dfTarget - A target variable, which can be either a binary or multiclass classification problem.  This is only required if Mode = &quot;Dummy&quot;.
+        Mode - Either None, Dummy, or Test.  If None then it will return all of the payments for a given customer
+
+    Args:
+        self: Access the instance of the class
+        dfClean: Pass the dataframe to be cleaned
+        Scaler: Scale the data
+        dfTarget: Pass the target dataframe to the function
+        Mode: Determine whether the function is being called in a training or prediction context
+
+    Returns:
+        The dataframe for the customer with acctrefno=self
+
+    Doc Author:
+        Trelent
+    """
         df = dfClean
         if Mode is None:
             Mode = ""
@@ -81,7 +138,7 @@ class Customer:
             self.__target = df['target']
             df.drop(columns="target", axis=1, inplace=True)
 
-            # Scaling
+           
             column_names = list(df.keys())
             df = Scaler.transform(df)
             df = pd.DataFrame(data=df, columns=column_names)
@@ -100,6 +157,20 @@ class Customer:
 
     def __predFunc(self, Model):
 
+        """
+    The __predFunc function takes in a model and returns the predicted probabilities of churn for each customer.
+    It also calculates the accuracy score of the model.
+
+    Args:
+        self: Represent the instance of the class
+        Model: Pass the model that is being used to predict
+
+    Returns:
+        The predicted probability of the customers who are likely to churn
+
+    Doc Author:
+        Trelent
+    """
         df = self.__dummy
 
         CustomerPredProb = Model.predict(df)
@@ -110,18 +181,34 @@ class Customer:
 
     def __predFuture(self, Model):
 
+        """
+    The __predFuture function is used to predict the future payment behavior of a customer.
+        The function takes in a model and uses it to predict the probability that each transaction will be paid.
+        It then calculates the certainty of all payments being made, as well as an overall prediction for whether or not
+        each transaction will be paid.
+
+    Args:
+        self: Bind the method to an object
+        Model: Pass the model to the function
+
+    Returns:
+        The future payment probability and the prediction of the next payment
+
+    Doc Author:
+        Trelent
+    """
         df = self.__dummy
         paymentNumberDistance = (max(df['payment_number']) - min(df['payment_number'])) / self.numberOfPayments
-        # Generate future transactions
+       
         df = df.sort_values("payment_number").drop_duplicates('transaction_code', keep="last")
         df['payment_number'] += paymentNumberDistance
-        # Prediction
+       
         CustomerPredProb = Model.predict_proba(df)
         CustomerAcc = pd.DataFrame(CustomerPredProb).rename(columns={0: "No Pay", 1: "Pay"})
         self.future = df
         self.certainty = round(sum(CustomerAcc["Pay"]) / len(CustomerAcc) * 100, 2)
         self.nextPaymentProbability = pd.Series(round(CustomerAcc['Pay'], 5))
-        # Prediction Translation
+       
         PredictionList = []
         for x in self.nextPaymentProbability.values:
             if x < 0.5:

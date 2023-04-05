@@ -1,3 +1,18 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 import os
 from pathlib import Path
 from colorama import Style, Fore, init
@@ -8,6 +23,20 @@ init(autoreset=True)
 
 
 def dateConvert(dataframe):
+    """
+The dateConvert function takes a dataframe as an argument and iterates through the columns of that dataframe.
+If the column name contains &quot;date&quot; or &quot;next&quot;, it converts that column to datetime format. If not, it passes over
+that column.
+
+Args:
+    dataframe: Pass the dataframe into the function
+
+Returns:
+    A dataframe with all date columns converted to datetime objects
+
+Doc Author:
+    Trelent
+"""
     for colName in dataframe:
         try:
             if "date" in colName or "next" in colName:
@@ -21,6 +50,25 @@ def dateConvert(dataframe):
 
 
 def directoryScanner(Name, SourcePath, Folder=None, returnMethod="Last", loadingAnimator=None, skipFlag=False):
+    """
+The directoryScanner function is used to scan a directory for files that contain the string provided by the user.
+The function will return either a list of all files containing the string or it will return one file based on what
+the user wants. The function can also be set to only look in specific folders within a directory.
+
+Args:
+    Name: Search for a file in the directory
+    SourcePath: Define the path to search in
+    Folder: Specify a subfolder in the source path
+    returnMethod: Determine if the function should return the first or last file found with
+    loadingAnimator: Stop the loading animation while the user is selecting a file
+    skipFlag: Skip the user input in case of multiple files found
+
+Returns:
+    A list of files that match the search string
+
+Doc Author:
+    Trelent
+"""
     if Folder is None:
         path = Path(SourcePath)
     else:
@@ -109,6 +157,22 @@ def directoryScanner(Name, SourcePath, Folder=None, returnMethod="Last", loading
 
 
 def fileLister(pathInp, Name):
+    """
+The fileLister function takes in a path and a name of the file you are looking for.
+It then scans the directory and returns all files that match your inputted name.
+The function will then print out all files that match your search criteria, along with their size and creation time.
+You can then select which file you want to use by typing in its number.
+
+Args:
+    pathInp: Specify the path to search for files in
+    Name: Search for a file in the directory
+
+Returns:
+    The name of the file that was chosen
+
+Doc Author:
+    Trelent
+"""
     path = Path(str(pathInp))
     scanObj = sorted(os.scandir(path), key=lambda t: t.stat().st_mtime, reverse=True)
     returnCTime = None

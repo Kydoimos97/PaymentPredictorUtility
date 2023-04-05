@@ -1,3 +1,18 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 import datetime
 import math
 import os
@@ -28,16 +43,27 @@ from PaymentPredictorUtility.Functions.Func import directoryScanner
 init(autoreset=True, convert=True)
 
 
-# init(autoreset=True)
 
-# Design Methodology: Correct = Green, Error = Red, Input = White, Information/Processing = Blue, Warning/Action = Yellow,
-# TODO Error Messages, Include SQL?, Set-up Automatic Test and file naming
 
 class GraphicalUserInterface:
 
     def __init__(self):
 
-        # Declare Variables
+       
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up all of the variables that will be used throughout the program.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Trelent
+    """
         self.verboseFlagBool = None
         self.skipFlag = None
         self.DebugFlag = False
@@ -60,16 +86,29 @@ class GraphicalUserInterface:
         self.printString = ""
 
     def showGui(self):
-        # Load all files and data
+       
+        """
+    The showGui function is the main function of the program. It loads all files and data, clears the console,
+    and then gets to main functionality. The while loop will continue until exitFlag is set to True.
+
+    Args:
+        self: Refer to the current object
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Trelent
+    """
         print(self.asciiArt(), flush=True)
         self.dataModelLoader()
 
-        # Clear Console
+       
         time.sleep(1)
         if not self.DebugFlag:
             os.system('cls||clear')
 
-        # Get to main functionality
+       
         while not self.exitFlag:
             if not self.DebugFlag:
                 os.system('cls||clear')
@@ -80,6 +119,20 @@ class GraphicalUserInterface:
         time.sleep(1)
 
     def individualMethod(self):
+        """
+    The individualMethod function is used to predict the next payment of a single customer.
+        The user will be prompted to input an account number, and the program will return a prediction for that specific customer.
+        This function is useful when you want to test out how accurate your model is on individual customers.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A dictionary of the account number, accuracy, certainty and prediction
+
+    Doc Author:
+        Trelent
+    """
         passFlag = False
         uniqueList = list(map(int, self.sourceObj.getDf()['acctrefno'].unique().tolist()))
         acctrefno = 0
@@ -116,7 +169,7 @@ class GraphicalUserInterface:
                 customerDict[uniqueList[x]] = [customerObj.accuracy, customerObj.certainty,
                                                customerObj.paymentPrediction.values,
                                                customerObj.nextPaymentProbability.values,
-                                               customerObj.paymentCodes.values]  # Add prediction
+                                               customerObj.paymentCodes.values] 
             except Exception as e:
                 ErrorDict[uniqueList[x]] = e
                 pass
@@ -131,7 +184,7 @@ class GraphicalUserInterface:
                           f"\nExpected time needed {str(datetime.timedelta(seconds=math.ceil((time.time() - StartingTime) / ((x + 1) / (loopLength + 1)))))}" + Style.RESET_ALL)
                     BatchTime = time.time()
 
-        # Save Output
+       
         if not os.path.exists(Path(self.docPath).joinpath('Output').joinpath(
                 f"Individual{datetime.datetime.today().strftime('%m%d%Y')}")):
             os.mkdir(Path(self.docPath).joinpath('Output').joinpath(
@@ -151,7 +204,8 @@ class GraphicalUserInterface:
 
         self.loadingAnimator.stop()
 
-        print(f"Output = {Fore.CYAN + str(customerDict) + Style.RESET_ALL} \n Error = {Fore.CYAN + str(ErrorDict) + Style.RESET_ALL} \n")
+        print(
+            f"Output = {Fore.CYAN + str(customerDict) + Style.RESET_ALL} \n Error = {Fore.CYAN + str(ErrorDict) + Style.RESET_ALL} \n")
 
         print(
             Fore.GREEN + f"Output saved in {str(self.docPath.joinpath('Output'))}\Individual{datetime.datetime.today().strftime('%m%d%Y')} folder." + Style.RESET_ALL,
@@ -162,6 +216,22 @@ class GraphicalUserInterface:
             pass
 
     def fullPredictionMethod(self):
+        """
+    The fullPredictionMethod function is the main function of the program. It takes in all of the data from
+    the sourceObj, targetObj, dummyObj and modelObj objects and uses them to create a Customer object for each unique account number.
+    The customer object then runs through its own prediction method which returns an accuracy score, certainty score (how confident it is that it's correct),
+    a predicted payment amount (if any), a probability that there will be a payment made next month and what type of payment code was used to make this prediction.
+    This information is then saved into two csv files: one with all successful predictions and
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A dataframe with the following columns:
+
+    Doc Author:
+        Trelent
+    """
         self.loadingAnimator = loadingAnimator("", "",
                                                "").start()
 
@@ -183,7 +253,7 @@ class GraphicalUserInterface:
                 customerDict[uniqueList[x]] = [customerObj.accuracy, customerObj.certainty,
                                                customerObj.paymentPrediction.values,
                                                customerObj.nextPaymentProbability.values,
-                                               customerObj.paymentCodes.values]  # Add prediction
+                                               customerObj.paymentCodes.values] 
             except Exception as e:
                 ErrorDict[uniqueList[x]] = e
                 pass
@@ -198,7 +268,7 @@ class GraphicalUserInterface:
                           f"Expected time needed {str(datetime.timedelta(seconds=math.ceil((time.time() - StartingTime) / ((x + 1) / (loopLength + 1)))))}")
                     BatchTime = time.time()
 
-        # Save Output
+       
         if not os.path.exists(
                 Path(self.docPath).joinpath('Output').joinpath(
                     f"Full{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}")):
@@ -230,6 +300,20 @@ class GraphicalUserInterface:
             pass
 
     def trainMethod(self):
+        """
+    The trainMethod function is the main function that allows the user to train a machine learning model.
+    It has three options: optimal, fast, and custom. Optimal will take about 4 hours to run while fast will take about 5 minutes.
+    Custom allows you to specify your own parameters for training.
+
+    Args:
+        self: Access the class attributes and methods
+
+    Returns:
+        A string
+
+    Doc Author:
+        Trelent
+    """
         print(self.dividerSmall("Selection Menu", method="return", padding=8) + """
     1.""" + Fore.CYAN + """[O]""" + Style.RESET_ALL + """ptimal (Est. 4 Hours)
     2.""" + Fore.CYAN + """[F]""" + Style.RESET_ALL + """ast (Est. 5 Min)
@@ -323,6 +407,20 @@ class GraphicalUserInterface:
 
     def methodSelector(self, selection):
 
+        """
+    The methodSelector function is the main menu for the program. It allows users to select which method they would like to use.
+        The function takes in a single parameter, selection, which is used as a switch statement to determine what method should be called next.
+
+    Args:
+        self: Access the class variables and functions
+        selection: Determine which method to call
+
+    Returns:
+        A boolean value of true or false
+
+    Doc Author:
+        Trelent
+    """
         if selection == "i":
             self.passFlag = True
             print(Fore.CYAN + """Individual Method Selected
@@ -363,6 +461,19 @@ class GraphicalUserInterface:
             ErrorProcessor(901, "__main__", "unknown")
 
     def welcomeMethod(self):
+        """
+    The welcomeMethod function is the first function that is called when the program starts.
+    It prints a menu of options to select from and then calls methodSelector with the user's selection.
+
+    Args:
+        self: Access the class variables and methods
+
+    Returns:
+        A value to the methodselector function
+
+    Doc Author:
+        Trelent
+    """
         self.passFlag = False
 
         print(self.dividerSmall("Selection Menu", method="return", padding=8) + """
@@ -379,13 +490,29 @@ class GraphicalUserInterface:
                 self.passFlag = True
             except ValueError as e:
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                 print(Fore.RED + "Please make a valid selection [I,F,T,E]" + Style.RESET_ALL)
                 continue
 
     def dataModelLoader(self):
+        """
+    The dataModelLoader function is used to load all the necessary files for the AvidPaymentPredictor.
+    This function will check if any of the files are missing and create them if needed.
+    The dataModelLoader function also checks for updates in tblXmain_transactions and will recreate all
+    necessary files if an update is detected.
+    The dataModelLoader function is then used to load the scaler and ML model from the Data folder.
+    If it does not exist, it will prompt user to create one using either optimal, fast or custom parameters.
 
-        # Reload Overwrite
+    Args:
+    self: Refer to the object itself
+
+    Returns:
+    The scalerobj and modelobj objects
+
+    Doc Author:
+    Trelent
+    """
+       
         retrainFlag = False
         reloadFlag = False
         self.DebugFlag = False
@@ -423,13 +550,13 @@ class GraphicalUserInterface:
                 reloadFlag = False
                 pass
 
-            # Data Folder
+           
             if not os.path.exists(self.docPath):
                 os.mkdir(self.docPath)
 
             self.dividerSmall(title="Data Folder")
 
-            # Data Folder
+           
             if not os.path.exists(self.docPath.joinpath("Data")):
                 if input(
                         Fore.RED + "[Data] folder not found. \n" + Style.RESET_ALL + "Do you want to create a folder? Y/N:").lower() == "y":
@@ -450,7 +577,7 @@ class GraphicalUserInterface:
 
             self.dividerSmall(title="tblXmain_transactions")
 
-            # tblXmain_transactions{
+           
             try:
                 fileName = directoryScanner("tblXmain_transactions", self.docPath, Folder="Data",
                                             returnMethod="Last", loadingAnimator=self.loadingAnimator,
@@ -461,7 +588,7 @@ class GraphicalUserInterface:
 
             except Exception as e:
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
 
                 print(Fore.YELLOW + "Note getting tblXmain_transaction will only work on the Avid network!!!")
                 if input(
@@ -494,7 +621,7 @@ class GraphicalUserInterface:
                         except:
                             pass
                         if self.DebugFlag:
-                            print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                            print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                         print(
                             Fore.RED + f"\n Getting table failed " + Fore.CYAN + "[tblXmain_transaction.csv]" + Fore.RED + " Exists in \n" + Fore.CYAN + f"  {self.docPath.joinpath('Data')}")
                         print(Fore.RED + "Closing Application in 3 seconds" + Style.RESET_ALL)
@@ -511,7 +638,7 @@ class GraphicalUserInterface:
 
             self.dividerSmall(title="Output Folder")
 
-            # OUTPUT FOLDER
+           
             if not os.path.exists(self.docPath.joinpath("Output")):
                 if input(
                         Fore.RED + "[Output] folder not found. \n" + Style.RESET_ALL + "Do you want to create a folder? Y/N: ").lower() == "y":
@@ -530,7 +657,7 @@ class GraphicalUserInterface:
 
             self.dividerSmall(title="dfClean Data")
 
-            # DFCLEAN
+           
             try:
                 if reloadFlag:
                     raise "Pass"
@@ -549,7 +676,7 @@ class GraphicalUserInterface:
                 except:
                     pass
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                 if not reloadFlag:
                     if input(
                             Fore.RED + "[dfClean] not found!!! " + Style.RESET_ALL + "Do you want to create this file? Y/N:").lower() == "y":
@@ -588,7 +715,7 @@ class GraphicalUserInterface:
 
             self.dividerSmall(title="dfDummy & dfTarget Data")
 
-            # DFDUMMY AND DFTARGET (X AND Y)
+           
             try:
                 if reloadFlag:
                     raise "Pass"
@@ -609,7 +736,7 @@ class GraphicalUserInterface:
                 except:
                     pass
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                 if not reloadFlag:
                     if input(
                             Fore.RED + "[dfDummy] or [dfTarget] not found!!! " + Style.RESET_ALL + f"Do you want to create this file? Y/N:").lower() == "y":
@@ -625,7 +752,8 @@ class GraphicalUserInterface:
                         fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
                                                     loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                         dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
-                                   f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data", self.docPath,
+                                   f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                                   self.docPath,
                                    verbose=self.verboseFlagBool)
                         self.loadingAnimator.stop()
                     else:
@@ -646,13 +774,14 @@ class GraphicalUserInterface:
                     fileName = directoryScanner("dfClean", self.docPath, Folder="Data", returnMethod="Last",
                                                 loadingAnimator=self.loadingAnimator, skipFlag=self.skipFlag)
                     dataMLPrep(fileName, f"dfDummy{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv",
-                               f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data", self.docPath,
+                               f"dfTarget{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.csv", "Data",
+                               self.docPath,
                                verbose=self.verboseFlagBool)
                     self.loadingAnimator.stop()
 
             self.dividerSmall(title="Scaling Model")
 
-            # SCALING MODEL
+           
             try:
                 if reloadFlag and retrainFlag:
                     raise "Pass"
@@ -669,7 +798,7 @@ class GraphicalUserInterface:
                 except:
                     pass
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                 if not reloadFlag and not retrainFlag:
                     self.loadingAnimator.stop()
                     if input(
@@ -703,7 +832,7 @@ class GraphicalUserInterface:
 
             self.dividerSmall(title="Machine Learning Model")
 
-            # ML MODEL
+           
             try:
                 if reloadFlag and retrainFlag:
                     raise "Pass"
@@ -720,7 +849,7 @@ class GraphicalUserInterface:
                 except:
                     pass
                 if self.DebugFlag:
-                    print(Fore.RED + f"DEBUG MESSAGE::: {e}")  # Debug
+                    print(Fore.RED + f"DEBUG MESSAGE::: {e}") 
                 if not reloadFlag and not retrainFlag:
                     methodChoice = input(
                         Fore.RED + "[model.sav] not found or corrupted!!! " + Style.RESET_ALL + "\nDo you want to create this file using " + Fore.CYAN + "[O]" + Style.RESET_ALL + "ptimal, (Est. 4 Hours)" + Fore.CYAN + "[F]" + Style.RESET_ALL + "ast (Est. 5 min), or " + Fore.CYAN + "[C]" + Style.RESET_ALL + "ustom parameters? or " + Fore.CYAN + "[E]" + Style.RESET_ALL + "xit this action?:")
@@ -898,49 +1027,27 @@ class GraphicalUserInterface:
                 self.initFlag = False
 
     @staticmethod
-    def asciiArt():
-        asciiArt = Fore.GREEN + """
-        ____________________________________________________         
-                               _____                                          
-                              /#####\                      
-                             /#######\                    
-                            /#########\                   
-                           /###########\                 
-                          /#####/‾\#####\                
-                         /#####/   \#####\              
-                        /#####/     \#####\             
-                       /#####/       \#####\         
-                      /#####/         \#####\          
-                     /#####/           \#####\        
-                    /#####/_____________\#####\      
-                   /###########################\\
-                  /#############################\   
-                 /#####/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\#####\\
-                /#####/                     \#####\\
-               /#####/                       \#####\                     
-               ‾‾‾‾‾‾                         ‾‾‾‾‾‾           
-                      Ⓒ Avid Acceptance LLC                 
-              Payment Probability Prediction Utility        
-        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾""" + Style.RESET_ALL
-
-        return asciiArt
-
-    @staticmethod
-    def asciiArtSmall():
-        asciiArt = Fore.GREEN + """
-            /\    
-           /  \   
-          / /\ \  
-         / ____ \ 
-        /_/    \_\
-           Avid
-        """ + Style.RESET_ALL
-
-        return asciiArt
-
-    @staticmethod
     def dividerSmall(title=None, method="print", padding=None, fullLength=None):
 
+        """
+    The dividerSmall function is used to print a divider with the title of the section in it.
+    The function takes three arguments:
+        - title (str): The text that will be printed in the middle of the divider. If no text is provided, then only a line will be printed.
+        - method (str): This argument determines whether or not to print or return the string containing all of our formatting and content for printing later on. Default value is &quot;print&quot;.
+        - padding (int): This argument determines how much padding there should be between each side of our divider and where we want our content to start/
+
+    Args:
+        title: Set the text in the middle of the divider
+        method: Determine whether to print the divider or return it
+        padding: Add extra padding to the left and right of the title
+        fullLength: Set the length of the divider
+
+    Returns:
+        A string
+
+    Doc Author:
+        Trelent
+    """
         titleLength = len(str(title))
 
         if fullLength is None:
@@ -969,9 +1076,93 @@ class GraphicalUserInterface:
         elif method.lower() == "return":
             return Fore.MAGENTA + dividerText + Style.RESET_ALL
 
+    @staticmethod
+    def asciiArt():
+        """
+            The asciiArt function returns a string containing the ASCII art for the Avid Acceptance logo.
+
+
+            Args:
+
+            Returns:
+                A string of ascii art
+
+            Doc Author:
+                Trelent
+            """
+
+        asciiArt = Fore.GREEN + """
+        ____________________________________________________         
+                               _____                                          
+                              /#####\                      
+                             /#######\                    
+                            /#########\                   
+                           /###########\                 
+                          /#####/‾\#####\                
+                         /#####/   \#####\              
+                        /#####/     \#####\             
+                       /#####/       \#####\         
+                      /#####/         \#####\          
+                     /#####/           \#####\        
+                    /#####/_____________\#####\      
+                   /###########################\\
+                  /#############################\   
+                 /#####/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\#####\\
+                /#####/                     \#####\\
+               /#####/                       \#####\                     
+               ‾‾‾‾‾‾                         ‾‾‾‾‾‾           
+                      Ⓒ Avid Acceptance LLC                 
+              Payment Probability Prediction Utility        
+        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾""" + Style.RESET_ALL
+
+        return asciiArt
+
+    @staticmethod
+    def asciiArtSmall():
+        """
+            The asciiArt function returns a string containing the small ASCII art for the Avid Acceptance logo.
+
+
+            Args:
+
+            Returns:
+                A string of ascii art
+
+            Doc Author:
+                Trelent
+            """
+        asciiArt = Fore.GREEN + """
+            /\    
+           /  \   
+          / /\ \  
+         / ____ \ 
+        /_/    \_\
+           Avid
+        """ + Style.RESET_ALL
+
+        return asciiArt
+
 
 class loadingAnimator:
     def __init__(self, desc="Loading...", end="Done!", error="Loading Failed", timeout=0.3):
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the initial values of all variables and attributes that are needed for this class to function properly.
+    The __init__ function takes in a description, an end message, an error message, and a timeout value as parameters.
+
+    Args:
+        self: Represent the instance of the class
+        desc: Set the description of the loading bar
+        end: Set the text that is displayed when the loading bar is finished
+        error: Display an error message if the loading fails
+        timeout: Set the time between each animation frame
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Trelent
+    """
         self.desc = Fore.CYAN + desc + Style.RESET_ALL
         self.end = Fore.GREEN + end + Style.RESET_ALL
         self.timeout = timeout
@@ -990,11 +1181,38 @@ class loadingAnimator:
         self.done = False
 
     def start(self):
+        """
+            The start function starts the thread.
+            It also sets the startTime to time.time() so that we can keep track of how long it has been running.
+
+            Args:
+                self: Represent the instance of the class
+
+            Returns:
+                The object itself
+
+            Doc Author:
+                Trelent
+            """
+
         self._thread.start()
         self.startTime = time.time()
         return self
 
     def _animate(self):
+        """
+    The _animate function is a generator that cycles through the steps of the animation.
+    It prints out each step, and then waits for self.timeout seconds before printing out the next step.
+
+    Args:
+        self: Make the class methods aware of other methods and attributes within the class
+
+    Returns:
+        A generator object
+
+    Doc Author:
+        Trelent
+    """
         for c in cycle(self.steps):
             if self.done:
                 break
@@ -1003,9 +1221,41 @@ class loadingAnimator:
             sleep(self.timeout)
 
     def __enter__(self):
+        """
+          The __enter__ function is called when the context manager is entered.
+          It returns whatever object should be assigned to the variable in the as clause of a with statement.
+          The __exit__ function is called when exiting from a with statement.
+
+          Args:
+              self: Access the class attributes
+
+          Returns:
+              The self object
+
+          Doc Author:
+              Trelent
+          """
         self.start()
 
     def stop(self, method=""):
+        """
+            The stop function is used to stop the progress bar.
+            It can be called in three ways:
+                1) No arguments, which will print a default message and then clear the line.
+                2) A string argument, which will print that string and then clear the line.
+                3) The keyword &quot;none&quot;, which will not print anything but still clear the line.
+
+            Args:
+                self: Represent the instance of the class
+                method: Determine what message is printed when the bar is stopped
+
+            Returns:
+                A string that is either the error or end message
+
+            Doc Author:
+                Trelent
+            """
+
         self.done = True
         cols = get_terminal_size((80, 20)).columns
         print("\r" + " " * cols, end="", flush=True)
@@ -1018,5 +1268,21 @@ class loadingAnimator:
         time.sleep(0.5)
 
     def __exit__(self, exc_type, exc_value, tb):
-        # handle exceptions with those variables ^
+        """
+          The __exit__ function is called when the context manager exits.
+          It can be used to clean up resources, or handle exceptions that occurred in the with block.
+          If an exception was raised in the with block, it will be passed as a parameter to __exit__.
+
+          Args:
+              self: Represent the instance of the class
+              exc_type: Determine the type of exception that was thrown
+              exc_value: Pass in the exception that was raised
+              tb: Get the traceback object
+
+          Returns:
+              A boolean value
+
+          Doc Author:
+              Trelent
+          """
         self.stop()

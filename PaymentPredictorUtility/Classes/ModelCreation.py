@@ -1,3 +1,18 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 import datetime
 import os
 import pickle
@@ -24,7 +39,6 @@ from tabulate import tabulate
 
 from colorama import Fore, init, Style
 init(autoreset=True, convert=True)
-#init(autoreset=True)
 
 
 
@@ -32,6 +46,24 @@ class dataScaler:
 
     def __init__(self, dataframeFileName, ModelFileName, path, Folder=None):
 
+        """
+    The __init__ function is the first function that gets called when you create a new instance of a class.
+    It's used to set up (initialize) any attributes or variables that the object will need.
+
+
+    Args:
+        self: Represent the instance of the class
+        dataframeFileName: Import the dataframe
+        ModelFileName: Save the model to a file
+        path: Set the path of the dataframe and model files
+        Folder: Specify a folder where the dataframe is located
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Trelent
+    """
         self.scaledDf = None
         self.scaler_model = None
 
@@ -51,12 +83,40 @@ class dataScaler:
         self.__modelExporter(self.scaler_model, ModelFileName)
 
     def __scaler(self):
+        """
+    The __scaler function is a private function that takes the dataframe and scales it using MinMaxScaler.
+    It then returns a scaled dataframe.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A dataframe with scaled values
+
+    Doc Author:
+        Trelent
+    """
         column_names = list(self.df.keys())
         self.scaler_model = MinMaxScaler()
         dfScaled = self.scaler_model.fit_transform(self.df)
         self.scaledDf = pd.DataFrame(data=dfScaled, columns=column_names)
 
     def __modelExporter(self, model, filename):
+        """
+    The __modelExporter function takes in a model and a filename, then exports the model to the specified file.
+
+
+    Args:
+        self: Allow an object to refer to itself inside of a method
+        model: Pass the model to be saved
+        filename: Specify the name of the file to be created
+
+    Returns:
+        A pickled model
+
+    Doc Author:
+        Trelent
+    """
         pickle.dump(model, open(f"{self.__Path.joinpath(filename)}", "wb"))
 
 
@@ -65,6 +125,30 @@ class machineLearner:
     def __init__(self, inputX, inputY, modelFile, path, method="xgBoost", Gridsearch=True, tableType=None,
                  ParamGrid=None, Folder=None, verbose=False):
 
+        """
+    The __init__ function is the first function that gets called when you create an object.
+    It sets up all of the variables and functions for your class.
+    The self variable refers to the instance of a class, so it's like saying &quot;this&quot; in Java or C++.
+
+    Args:
+        self: Refer to the class itself
+        inputX: Specify the input dataframe
+        inputY: Specify the target variable
+        modelFile: Save the model in a file
+        path: Specify the path to the folder where all data is stored
+        method: Determine which model to use
+        Gridsearch: Choose whether or not to use gridsearch
+        tableType: Determine the type of table that will be created
+        ParamGrid: Pass a dictionary of parameters to the gridsearchcv function
+        Folder: Specify the folder where the data is stored
+        verbose: Print out the time it takes to run each function
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Trelent
+    """
         self.ArgumentsEpoch = None
         self.EpochAccOos = None
         self.EpochAccIs = None
@@ -106,15 +190,60 @@ class machineLearner:
             self.__KNNTrainer(Gridsearch=Gridsearch)
 
     def __modelExporter(self, model, modelFile):
+        """
+    The __modelExporter function takes in a model and a file name, then exports the model to the specified file.
+
+
+    Args:
+        self: Represent the instance of the class
+        model: Pass the model to be saved
+        modelFile: Specify the name of the file that will be created to store our model
+
+    Returns:
+        A pickled model file
+
+    Doc Author:
+        Trelent
+    """
         pickle.dump(model, open(f"{self.__Path.joinpath(modelFile)}", "wb"))
 
     def __testTrainCreator(self):
+        """
+    The __testTrainCreator function is a private function that creates the training and testing sets for the model.
+    The train_test_split function from sklearn.model_selection is used to create these sets, with 25% of the data being
+    used as test data and 75% of it being used as training data.
+
+    Args:
+        self: Allow an object to refer to itself inside of a class
+
+    Returns:
+        The training and testing data for the model
+
+    Doc Author:
+        Trelent
+    """
         self.__xTrain, self.__xTest, self.__yTrain, self.__yTest = train_test_split(self.df, self.target,
                                                                                     test_size=0.25,
                                                                                     random_state=33)
 
     def __paramGridCreator(self, ParamGrid):
 
+        """
+    The __paramGridCreator function is used to create a parameter grid for the XGBoost model.
+        The function takes in a dictionary of parameters and values, or one of two pre-defined grids:
+            - &quot;optimal&quot; : A grid that contains the optimal parameters found by running an exhaustive search on all possible combinations.
+            - &quot;fast&quot; : A grid that contains fast but not necessarily optimal parameters.
+
+    Args:
+        self: Represent the instance of the class
+        ParamGrid: Define the grid of parameters to be used in the model
+
+    Returns:
+        A dataframe with all the possible combinations of parameters
+
+    Doc Author:
+        Trelent
+    """
         if type(ParamGrid) is dict:
             self.__paramGrid = pd.DataFrame(ParameterGrid(ParamGrid))
         elif ParamGrid.lower() == "optimal":
@@ -139,11 +268,32 @@ class machineLearner:
 
             self.__paramGrid = pd.DataFrame(ParameterGrid(paramGridInp))
         else:
-            # TODO Error
+           
             raise ValueError
 
     def __xgboostTrainer(self, Gridsearch, ParamGrid, Path, Folder):
 
+        """
+    The __xgboostTrainer function is the main function that runs the xgboost model.
+    It takes in a boolean value for Gridsearch, which determines whether or not to run a grid search over parameters.
+    If Gridsearch is set to True, it will take in a dictionary of parameter values and create an exhaustive list of all possible combinations using __paramGridCreator().
+    The function then uses KFold cross validation with 3 folds to train and test each combination on the training data.
+    The mean accuracy score and AUC are calculated for each fold, then averaged across all folds for each epoch (combination).
+    This process continues
+
+    Args:
+        self: Bind the object to the method
+        Gridsearch: Determine whether the model should be run with a gridsearch or not
+        ParamGrid: Define the grid of parameters to search over
+        Path: Define the path to save the model
+        Folder: Specify the folder to save the model in
+
+    Returns:
+        :
+
+    Doc Author:
+        Trelent
+    """
         if Gridsearch:
 
             self.__paramGridCreator(ParamGrid)
@@ -158,7 +308,7 @@ class machineLearner:
             for epoch in range(len(self.__paramGrid)):
 
                 xgboost_timer_lap = timeit.default_timer()
-                # Run Model
+               
                 xgClassifier = xgb.XGBClassifier(objective='binary:logistic',
                                                  n_estimators=self.__paramGrid["n_estimators"][epoch],
                                                  max_depth=self.__paramGrid["max_depth"][epoch],
@@ -229,7 +379,7 @@ class machineLearner:
                 verboseDict[epoch + 1] = epochParamGrid
                 self.ArgumentsEpoch = verboseDict
 
-            # Rerun the model with optimal parameters
+           
             xgClassifier = xgb.XGBClassifier(objective='binary:logistic',
                                              n_estimators=self.Arguments["n_estimators"],
                                              max_depth=self.Arguments["max_depth"],
@@ -333,6 +483,23 @@ class machineLearner:
 
     def __KNNTrainer(self, Gridsearch):
 
+        """
+    The __KNNTrainer function is a private function that trains the KNN model.
+        It takes in two arguments: Gridsearch and verbose.
+
+        If Gridsearch is True, it will run a grid search to find the best number of neighbours for the model.
+            The user will be prompted to enter an integer value for maxNeighbours and maxEpochs (the maximum number of epochs).
+
+    Args:
+        self: Access the attributes and methods of a class
+        Gridsearch: Determine whether the user wants to run a gridsearch or not
+
+    Returns:
+        A model and the accuracy of the model
+
+    Doc Author:
+        Trelent
+    """
         if Gridsearch:
             __maxNeighbours = int(input("Max Neighbours [int]: "))
             __maxEpochs = int(input("Max Epochs to run [int]: "))
@@ -345,19 +512,19 @@ class machineLearner:
                 __knn = KNeighborsClassifier(n_neighbors=x)
                 __knn.fit(self.__xTrain, self.__yTrain)
 
-                # In Sample
+               
                 self.PredOos = __knn.predict(self.__xTest)
                 __accOos = accuracy_score(self.__yTest, self.PredOos)
 
-                # Out of sample
+               
                 self.PredIs = __knn.predict(self.__xTrain)
                 __accIs = accuracy_score(self.__yTrain, self.PredIs)
 
-                # append to dict
+               
                 self.EpochAccOos.append(__accOos)
                 self.EpochAccIs.append(__accIs)
 
-                # Update Output
+               
                 if __accOos > __bestOos:
                     if __accIs > .95:
                         pass
@@ -397,6 +564,19 @@ class machineLearner:
 
     def __confusionMatrixShow(self, outOfSample=True):
 
+        """
+    The __confusionMatrixShow function is a helper function that displays the confusion matrix for either the in-sample or out-of-sample predictions.
+
+    Args:
+        self: Bind the method to a class
+        outOfSample: Determine whether the confusion matrix is based on the in-sample or out-of-sample data
+
+    Returns:
+        A graph of the confusion matrix
+
+    Doc Author:
+        Trelent
+    """
         if outOfSample:
             self.__confusionMatrix(self.PredOos, self.__yTest, returnOption="graph")
         else:
@@ -405,6 +585,25 @@ class machineLearner:
     @staticmethod
     def __confusionMatrix(yPrediction, yActual, returnOption="graph"):
 
+        """
+    The __confusionMatrix function takes in the predicted and actual values of a classification model,
+    and returns either a dataframe or graph of the confusion matrix. The function is called by using:
+        __confusionMatrix(yPrediction, yActual)
+    where yPrediction is an array containing all predictions made by your model, and yActual contains all actual values.
+    The default return option for this function is &quot;graph&quot;, which will display a heatmap of the confusion matrix. If you would like to return only the dataframe version of this object instead, use:
+        __confusionMatrix(yPrediction
+
+    Args:
+        yPrediction: Predict the actual values of yactual
+        yActual: Store the actual values of the data
+        returnOption: Return either a dataframe or a graph
+
+    Returns:
+        A graph of the confusion matrix
+
+    Doc Author:
+        Trelent
+    """
         plt.close("all")
 
         plt.rcParams.update({
@@ -451,6 +650,32 @@ class machineLearner:
                    setAxis=True,
                    splitLine=False):
 
+        """
+    The __linePlot function is a helper function that plots the data in a line plot.
+        It takes in the following parameters:
+            - dataFrame: The pandas DataFrame containing the data to be plotted.
+            - colName: The name of the column whose values are to be plotted on y-axis.
+                This parameter is required and must be passed as string value, else an error will occur.
+            - hue (optional): A categorical variable that will produce points with different colors for each level of hue,
+                or None if no grouping by color should happen (default). If this parameter is
+
+    Args:
+        dataFrame: Pass the dataframe to be used in the function
+        colName: Specify the column name of the dataframe that is to be plotted
+        hue: Split the data into different lines
+        graphTitle: Set the title of the graph
+        xLabel: Set the label of the x-axis
+        yLabel: Set the label of the y axis
+        figSize: Set the size of the graph
+        setAxis: Set the x-axis ticks
+        splitLine: Split the line plot in two parts
+
+    Returns:
+        A line plot of the dataframe
+
+    Doc Author:
+        Trelent
+    """
         plt.close("all")
 
         if graphTitle is None:
@@ -487,6 +712,22 @@ class machineLearner:
 
     @staticmethod
     def __barPlot(dataFrame, colName, graphTitle=None):
+        """
+    The __barPlot function is a helper function that takes in a dataFrame, column name and graph title.
+    It then plots the count of each unique value in the specified column as a bar plot.
+    The default graph title is &quot;Count plot of {colName}&quot;. The color palette used for this function is green.
+
+    Args:
+        dataFrame: Pass the dataframe to be used in the function
+        colName: Specify the column name of the dataframe that will be plotted
+        graphTitle: Set the title of the graph
+
+    Returns:
+        A bar plot of the values in a column
+
+    Doc Author:
+        Trelent
+    """
         plt.close("all")
 
         if graphTitle is None:
@@ -506,5 +747,18 @@ class machineLearner:
 
     @staticmethod
     def __printTableHtml(dataframe):
+        """
+    The __printTableHtml function is a helper function that takes in a pandas dataframe and prints it out as an HTML table.
+    This is useful for displaying the results of our queries in Jupyter Notebook.
+
+    Args:
+        dataframe: Pass the dataframe to be displayed in the table
+
+    Returns:
+        The html table of the dataframe
+
+    Doc Author:
+        Trelent
+    """
         display(
             HTML("<div style='height: 400px; text-align: left;'>" + dataframe.style.render() + "</div>"))
