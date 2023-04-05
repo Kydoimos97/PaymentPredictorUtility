@@ -62,7 +62,7 @@ class GraphicalUserInterface:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.verboseFlagBool = None
         self.skipFlag = None
@@ -98,7 +98,7 @@ class GraphicalUserInterface:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         print(self.asciiArt(), flush=True)
         self.dataModelLoader()
@@ -131,7 +131,7 @@ class GraphicalUserInterface:
         A dictionary of the account number, accuracy, certainty and prediction
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         passFlag = False
         uniqueList = list(map(int, self.sourceObj.getDf()['acctrefno'].unique().tolist()))
@@ -230,7 +230,7 @@ class GraphicalUserInterface:
         A dataframe with the following columns:
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.loadingAnimator = loadingAnimator("", "",
                                                "").start()
@@ -312,7 +312,7 @@ class GraphicalUserInterface:
         A string
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         print(self.dividerSmall("Selection Menu", method="return", padding=8) + """
     1.""" + Fore.CYAN + """[O]""" + Style.RESET_ALL + """ptimal (Est. 4 Hours)
@@ -419,7 +419,7 @@ class GraphicalUserInterface:
         A boolean value of true or false
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if selection == "i":
             self.passFlag = True
@@ -472,7 +472,7 @@ class GraphicalUserInterface:
         A value to the methodselector function
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.passFlag = False
 
@@ -510,7 +510,7 @@ class GraphicalUserInterface:
     The scalerobj and modelobj objects
 
     Doc Author:
-    Trelent
+    Willem van der Schans, Trelent AI
     """
        
         retrainFlag = False
@@ -1046,7 +1046,7 @@ class GraphicalUserInterface:
         A string
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         titleLength = len(str(title))
 
@@ -1088,7 +1088,7 @@ class GraphicalUserInterface:
                 A string of ascii art
 
             Doc Author:
-                Trelent
+                Willem van der Schans, Trelent AI
             """
 
         asciiArt = Fore.GREEN + """
@@ -1129,7 +1129,7 @@ class GraphicalUserInterface:
                 A string of ascii art
 
             Doc Author:
-                Trelent
+                Willem van der Schans, Trelent AI
             """
         asciiArt = Fore.GREEN + """
             /\    
@@ -1161,7 +1161,7 @@ class loadingAnimator:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.desc = Fore.CYAN + desc + Style.RESET_ALL
         self.end = Fore.GREEN + end + Style.RESET_ALL
@@ -1192,7 +1192,7 @@ class loadingAnimator:
                 The object itself
 
             Doc Author:
-                Trelent
+                Willem van der Schans, Trelent AI
             """
 
         self._thread.start()
@@ -1211,7 +1211,7 @@ class loadingAnimator:
         A generator object
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         for c in cycle(self.steps):
             if self.done:
@@ -1233,7 +1233,7 @@ class loadingAnimator:
               The self object
 
           Doc Author:
-              Trelent
+              Willem van der Schans, Trelent AI
           """
         self.start()
 
@@ -1253,7 +1253,7 @@ class loadingAnimator:
                 A string that is either the error or end message
 
             Doc Author:
-                Trelent
+                Willem van der Schans, Trelent AI
             """
 
         self.done = True
@@ -1283,6 +1283,6 @@ class loadingAnimator:
               A boolean value
 
           Doc Author:
-              Trelent
+              Willem van der Schans, Trelent AI
           """
         self.stop()

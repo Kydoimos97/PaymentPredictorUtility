@@ -39,7 +39,7 @@ class modelLoader:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.__Folder = None
         self.__model = None
@@ -72,6 +72,6 @@ class modelLoader:
         The value of the __model attribute
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         return self.__model

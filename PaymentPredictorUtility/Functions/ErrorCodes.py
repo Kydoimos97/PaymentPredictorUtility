@@ -36,7 +36,7 @@ Returns:
     A string
 
 Doc Author:
-    Trelent
+    Willem van der Schans, Trelent AI
 """
     sys.tracebacklimit = tracebacklimit
     if type == "mySql":

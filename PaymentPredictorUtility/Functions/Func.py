@@ -35,7 +35,7 @@ Returns:
     A dataframe with all date columns converted to datetime objects
 
 Doc Author:
-    Trelent
+    Willem van der Schans, Trelent AI
 """
     for colName in dataframe:
         try:
@@ -67,7 +67,7 @@ Returns:
     A list of files that match the search string
 
 Doc Author:
-    Trelent
+    Willem van der Schans, Trelent AI
 """
     if Folder is None:
         path = Path(SourcePath)
@@ -171,7 +171,7 @@ Returns:
     The name of the file that was chosen
 
 Doc Author:
-    Trelent
+    Willem van der Schans, Trelent AI
 """
     path = Path(str(pathInp))
     scanObj = sorted(os.scandir(path), key=lambda t: t.stat().st_mtime, reverse=True)

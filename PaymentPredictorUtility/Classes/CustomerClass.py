@@ -41,7 +41,7 @@ class Customer:
         The object itself, which is assigned to the variable self
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.acctrefno = acctrefno
         self.numberOfPayments = 0
@@ -94,7 +94,7 @@ class Customer:
         A dataframe with the prediction column added
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         df = self.__df
         df["prediction"] = self.__CustomerPred[1]
@@ -122,7 +122,7 @@ class Customer:
         The dataframe for the customer with acctrefno=self
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         df = dfClean
         if Mode is None:
@@ -169,7 +169,7 @@ class Customer:
         The predicted probability of the customers who are likely to churn
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         df = self.__dummy
 
@@ -195,7 +195,7 @@ class Customer:
         The future payment probability and the prediction of the next payment
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         df = self.__dummy
         paymentNumberDistance = (max(df['payment_number']) - min(df['payment_number'])) / self.numberOfPayments

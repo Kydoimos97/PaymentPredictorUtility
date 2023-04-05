@@ -62,7 +62,7 @@ class dataScaler:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.scaledDf = None
         self.scaler_model = None
@@ -94,7 +94,7 @@ class dataScaler:
         A dataframe with scaled values
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         column_names = list(self.df.keys())
         self.scaler_model = MinMaxScaler()
@@ -115,7 +115,7 @@ class dataScaler:
         A pickled model
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         pickle.dump(model, open(f"{self.__Path.joinpath(filename)}", "wb"))
 
@@ -147,7 +147,7 @@ class machineLearner:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.ArgumentsEpoch = None
         self.EpochAccOos = None
@@ -203,7 +203,7 @@ class machineLearner:
         A pickled model file
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         pickle.dump(model, open(f"{self.__Path.joinpath(modelFile)}", "wb"))
 
@@ -220,7 +220,7 @@ class machineLearner:
         The training and testing data for the model
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.__xTrain, self.__xTest, self.__yTrain, self.__yTest = train_test_split(self.df, self.target,
                                                                                     test_size=0.25,
@@ -242,7 +242,7 @@ class machineLearner:
         A dataframe with all the possible combinations of parameters
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if type(ParamGrid) is dict:
             self.__paramGrid = pd.DataFrame(ParameterGrid(ParamGrid))
@@ -292,7 +292,7 @@ class machineLearner:
         :
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if Gridsearch:
 
@@ -498,7 +498,7 @@ class machineLearner:
         A model and the accuracy of the model
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if Gridsearch:
             __maxNeighbours = int(input("Max Neighbours [int]: "))
@@ -575,7 +575,7 @@ class machineLearner:
         A graph of the confusion matrix
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if outOfSample:
             self.__confusionMatrix(self.PredOos, self.__yTest, returnOption="graph")
@@ -602,7 +602,7 @@ class machineLearner:
         A graph of the confusion matrix
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         plt.close("all")
 
@@ -674,7 +674,7 @@ class machineLearner:
         A line plot of the dataframe
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         plt.close("all")
 
@@ -726,7 +726,7 @@ class machineLearner:
         A bar plot of the values in a column
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         plt.close("all")
 
@@ -758,7 +758,7 @@ class machineLearner:
         The html table of the dataframe
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         display(
             HTML("<div style='height: 400px; text-align: left;'>" + dataframe.style.render() + "</div>"))

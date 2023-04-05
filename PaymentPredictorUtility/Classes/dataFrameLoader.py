@@ -40,7 +40,7 @@ class dataFrameLoader:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.__Folder = None
         self.__Path = None
@@ -74,6 +74,6 @@ class dataFrameLoader:
         The dataframe that was created in the constructor
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         return self.__df

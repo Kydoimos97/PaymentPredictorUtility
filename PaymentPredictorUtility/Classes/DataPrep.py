@@ -41,7 +41,7 @@ class DataCleaner:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.__exportFileName = ExportFileName
         self.__folder = folder
@@ -116,7 +116,7 @@ class DataCleaner:
         A dataframe with the columnname and valuelist specified
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.df = self.df[(self.df[columnName].isin(valueList))]
 
@@ -134,7 +134,7 @@ class DataCleaner:
         A list of columns that are to be dropped
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         dropList = []
         for col in self.df.columns:
@@ -157,7 +157,7 @@ class DataCleaner:
         A dataframe with all rows that contain null values removed
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.df = self.df.dropna(axis=0).reset_index(drop=True)
 
@@ -178,7 +178,7 @@ class DataCleaner:
         A csv file
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if folder is not None:
             dataframe.to_csv(f"{path}{folder}/{filename}")
@@ -210,7 +210,7 @@ class dataMLPrep:
         Nothing
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         self.dummyDf = None
         self.targetDf = None
@@ -260,7 +260,7 @@ class dataMLPrep:
         A dummy encoded dataframe and a target variable
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         labelEncoder = LabelEncoder()
         colList = list(self.df.select_dtypes(include=['object']).columns)
@@ -292,7 +292,7 @@ class dataMLPrep:
         A list of 1's and 0's
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         target_list = []
         for row in range(len(self.df)):
@@ -322,7 +322,7 @@ class dataMLPrep:
         A csv file in the specified folder
 
     Doc Author:
-        Trelent
+        Willem van der Schans, Trelent AI
     """
         if folder is not None:
             dataframe.to_csv(f"{path}{folder}/{filename}")
